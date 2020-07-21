@@ -65,28 +65,28 @@ let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 let sleepMainCard = document.querySelector('#sleep-main-card');//click handler
 let sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');// used only once
 let stairsCalendarCard = document.querySelector('#stairs-calendar-card');// click handler
-let stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
-let stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
-let stepsMainCard = document.querySelector('#steps-main-card');
-let stepsInfoCard = document.querySelector('#steps-info-card');
-let stepsFriendsCard = document.querySelector('#steps-friends-card');
-let stepsTrendingCard = document.querySelector('#steps-trending-card');
-let stepsCalendarCard = document.querySelector('#steps-calendar-card');
+let stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');//used only once
+let stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');// used only once
+let stepsMainCard = document.querySelector('#steps-main-card');// click handler
+let stepsInfoCard = document.querySelector('#steps-info-card');//used only once - click handler
+let stepsFriendsCard = document.querySelector('#steps-friends-card');//used only once - click handler
+let stepsTrendingCard = document.querySelector('#steps-trending-card'); // used only once - click handler
+let stepsCalendarCard = document.querySelector('#steps-calendar-card');// used only once - click handler
 let stairsFriendFlightsAverageToday = document.querySelector('#stairs-friend-flights-average-today');
 let stairsFriendsCard = document.querySelector('#stairs-friends-card');
 let stairsInfoCard = document.querySelector('#stairs-info-card');
 let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
 let stairsMainCard = document.querySelector('#stairs-main-card');
 let stairsTrendingButton = document.querySelector('.stairs-trending-button');
-let stairsTrendingCard = document.querySelector('#stairs-trending-card');
-let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
-let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
-let stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
-let stepsFriendAverageStepGoal = document.querySelector('#steps-friend-average-step-goal');
-let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
-let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-let stepsFriendActiveMinutesAverageToday = document.querySelector('#steps-friend-active-minutes-average-today');
-let stepsFriendStepsAverageToday = document.querySelector('#steps-friend-steps-average-today');
+let stairsTrendingCard = document.querySelector('#stairs-trending-card'); //used only once - click handler
+let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');//used only once
+let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');//used once
+let stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');//used only once
+let stepsFriendAverageStepGoal = document.querySelector('#steps-friend-average-step-goal');//used only once
+let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');//used only once
+let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');//used only once
+let stepsFriendActiveMinutesAverageToday = document.querySelector('#steps-friend-active-minutes-average-today');//used only once
+let stepsFriendStepsAverageToday = document.querySelector('#steps-friend-steps-average-today');//used only once
 let stepsTrendingButton = document.querySelector('.steps-trending-button');
 let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
 let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
@@ -121,16 +121,16 @@ function showDropdown() {
 
 function showInfo() { //click handler
   if (event.target.classList.contains('steps-info-button')) {
-    flipCard(stepsMainCard, stepsInfoCard);
+    flipCard(stepsMainCard, stepsInfoCard);// //
   }
   if (event.target.classList.contains('steps-friends-button')) {
-    flipCard(stepsMainCard, stepsFriendsCard);
+    flipCard(stepsMainCard, stepsFriendsCard);// //
   }
   if (event.target.classList.contains('steps-trending-button')) {
-    flipCard(stepsMainCard, stepsTrendingCard);
+    flipCard(stepsMainCard, stepsTrendingCard);// //
   }
   if (event.target.classList.contains('steps-calendar-button')) {
-    flipCard(stepsMainCard, stepsCalendarCard);
+    flipCard(stepsMainCard, stepsCalendarCard);// //
   }
   if (event.target.classList.contains('hydration-info-button')) {
     flipCard(hydrationMainCard, hydrationInfoCard);//
@@ -163,7 +163,7 @@ function showInfo() { //click handler
     flipCard(sleepMainCard, sleepCalendarCard);// //
   }
   if (event.target.classList.contains('steps-go-back-button')) {
-    flipCard(event.target.parentNode, stepsMainCard);
+    flipCard(event.target.parentNode, stepsMainCard);//
   }
   if (event.target.classList.contains('hydration-go-back-button')) {
     flipCard(event.target.parentNode, hydrationMainCard);//
@@ -224,7 +224,7 @@ sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;//place into fun
 
 stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
   return (activity.date === todayDate && activity.userId === user.id)
-}).calculateMiles(userRepository);
+}).calculateMiles(userRepository); //place in function - updates DOM - fuctional
 
 sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;//should update the DOM - does not seem to appear on page, required in rubric
 
@@ -236,9 +236,9 @@ sleepUserHoursToday.innerText = sleepData.find(sleep => {
   return sleep.userID === user.id && sleep.date === todayDate;
 }).hoursSlept;//place in function - updates DOM
 
-stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);//place in function - updates the DOM
+stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);//place in function - updates the DOM - working
 
-stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);//place into function - updates DOM
 
 stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
 
@@ -248,33 +248,31 @@ stairsInfoFlightsToday.innerText = activityData.find(activity => {
 
 stairsUserStairsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
-}).flightsOfStairs * 12;
-
-stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+}).flightsOfStairs * 12;// place in function - updated DOM - seems to work
 
 stairsTrendingButton.addEventListener('click', function() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
 });
 
-stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
+stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);//place in function - updates DOM
 
-stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
+stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate); //place in function - updates DOM
 
 stepsTrendingButton.addEventListener('click', function() {
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 });
 
-stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
+stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate); //place in function - updates DOM - appears to function
 
-stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
+stepsFriendAverageStepGoal.innerText = userRepository.calculateAverageStepGoal();//place in function - updates DOM - appears in user icon flip
 
-stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
+stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);//place in function - updates DOM appears in  user icon flip
 
 stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
-}).minutesActive;
+}).minutesActive;// place in funtion - updates DOM - functional
 
 stepsUserStepsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
