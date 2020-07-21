@@ -37,21 +37,21 @@ let user = userRepository.users[0];
 let todayDate = "2019/09/22";
 user.findFriendsNames(userRepository.users);
 
-let dailyOz = document.querySelectorAll('.daily-oz'); //used only once
-let dropdownEmail = document.querySelector('#dropdown-email'); //used only once
-let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container'); //used only once
-let dropdownGoal = document.querySelector('#dropdown-goal'); //used only once
-let dropdownName = document.querySelector('#dropdown-name'); //used only once
-let headerName = document.querySelector('#header-name'); //used only once
-let hydrationCalendarCard = document.querySelector('#hydration-calendar-card'); //used only once
-let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today'); //used only once
-let hydrationFriendsCard = document.querySelector('#hydration-friends-card'); //used only once
-let hydrationInfoCard = document.querySelector('#hydration-info-card'); //used only once
-let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today'); //used only once
-let hydrationMainCard = document.querySelector('#hydration-main-card'); //used several times in showInfo()
-let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today'); //used only once
-let mainPage = document.querySelector('main'); //event listener
-let profileButton = document.querySelector('#profile-button'); //event listener
+let dailyOz = document.querySelectorAll('.daily-oz');
+let dropdownEmail = document.querySelector('#dropdown-email');
+let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
+let dropdownGoal = document.querySelector('#dropdown-goal');
+let dropdownName = document.querySelector('#dropdown-name');
+let headerName = document.querySelector('#header-name');
+let hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
+let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today');
+let hydrationFriendsCard = document.querySelector('#hydration-friends-card');
+let hydrationInfoCard = document.querySelector('#hydration-info-card');
+let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
+let hydrationMainCard = document.querySelector('#hydration-main-card');
+let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
+let mainPage = document.querySelector('main');
+let profileButton = document.querySelector('#profile-button');
 let sleepCalendarCard = document.querySelector('#sleep-calendar-card');
 let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
 let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
@@ -106,7 +106,6 @@ mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
-//Combine these four into a single click listener
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
@@ -117,7 +116,7 @@ function showDropdown() {
   userInfoDropdown.classList.toggle('hide');
 }
 
-function showInfo() { //click handler
+function showInfo() {
   if (event.target.classList.contains('steps-info-button')) {
     flipCard(stepsMainCard, stepsInfoCard);
   }
@@ -131,13 +130,13 @@ function showInfo() { //click handler
     flipCard(stepsMainCard, stepsCalendarCard);
   }
   if (event.target.classList.contains('hydration-info-button')) {
-    flipCard(hydrationMainCard, hydrationInfoCard);//
+    flipCard(hydrationMainCard, hydrationInfoCard);
   }
   if (event.target.classList.contains('hydration-friends-button')) {
-    flipCard(hydrationMainCard, hydrationFriendsCard);//
+    flipCard(hydrationMainCard, hydrationFriendsCard);
   }
   if (event.target.classList.contains('hydration-calendar-button')) {
-    flipCard(hydrationMainCard, hydrationCalendarCard);//
+    flipCard(hydrationMainCard, hydrationCalendarCard);
   }
   if (event.target.classList.contains('stairs-info-button')) {
     flipCard(stairsMainCard, stairsInfoCard);
@@ -158,13 +157,13 @@ function showInfo() { //click handler
     flipCard(sleepMainCard, sleepFriendsCard);
   }
   if (event.target.classList.contains('sleep-calendar-button')) {
-    flipCard(sleepMainCard, sleepCalendarCard);//
+    flipCard(sleepMainCard, sleepCalendarCard);
   }
   if (event.target.classList.contains('steps-go-back-button')) {
     flipCard(event.target.parentNode, stepsMainCard);
   }
   if (event.target.classList.contains('hydration-go-back-button')) {
-    flipCard(event.target.parentNode, hydrationMainCard);//
+    flipCard(event.target.parentNode, hydrationMainCard);
   }
   if (event.target.classList.contains('stairs-go-back-button')) {
     flipCard(event.target.parentNode, stairsMainCard);
@@ -186,25 +185,25 @@ function updateTrendingStepDays() {
 
 for (var i = 0; i < dailyOz.length; i++) {
   dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
-} //Put this in a function, convert into forEach, locally scope query selector 
+}
 
-dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;//
+dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
 
-dropdownEmail.innerText = `EMAIL | ${user.email}`;//
+dropdownEmail.innerText = `EMAIL | ${user.email}`;
 
-dropdownName.innerText = user.name.toUpperCase();//
+dropdownName.innerText = user.name.toUpperCase();
 
-headerName.innerText = `${user.getFirstName()}'S `; //Put these above four into a loader function, and locally scope query selectors
+headerName.innerText = `${user.getFirstName()}'S `;
 
 hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
   return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces;//Put in function, locally scope query selector, refactor with hydrationInfoGlassesToday.innerText
+}).numOunces;
 
-hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);//Put into function, locally scope query selector
+hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 
 hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
   return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces / 8;//Put in function, locally scope query selector, revisit if we want to keep this
+}).numOunces / 8;
 
 sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
 
@@ -287,10 +286,8 @@ user.friendsActivityRecords.forEach(friend => {
   <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
   `;
 });
-//Put this in a function, locally scope query selector
 
 let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-//Should this be with globally scoped query selectors?
 
 friendsStepsParagraphs.forEach(paragraph => {
   if (friendsStepsParagraphs[0] === paragraph) {
