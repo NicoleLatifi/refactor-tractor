@@ -179,12 +179,12 @@ function showInfo() { //click handler
 function updateTrendingStairsDays() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-}
+}//may be appropriate to combine with updateTrendingStepDays
 
 function updateTrendingStepDays() {
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
-}
+} //this function is the good one (replicated elsewhere) may be combined with updateTrendingStairsDays later on
 
 for (var i = 0; i < dailyOz.length; i++) {
   dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
@@ -259,10 +259,6 @@ stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesAc
 
 stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate); //place in function - updates DOM
 
-stepsTrendingButton.addEventListener('click', function() {
-  user.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
-});
 
 stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate); //place in function - updates DOM - appears to function
 
