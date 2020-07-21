@@ -52,28 +52,19 @@ let hydrationMainCard = document.querySelector('#hydration-main-card'); //used s
 let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today'); //used only once
 let mainPage = document.querySelector('main'); //event listener
 let profileButton = document.querySelector('#profile-button'); //event listener
-let sleepCalendarCard = document.querySelector('#sleep-calendar-card');
-let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
-let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
-let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
-let sleepFriendsCard = document.querySelector('#sleep-friends-card');
-let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');
-let sleepInfoCard = document.querySelector('#sleep-info-card');
-let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
-let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
-let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-let sleepMainCard = document.querySelector('#sleep-main-card');
-let sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
-  if (Object.keys(a)[0] > Object.keys(b)[0]) {
-    return -1;
-  }
-  if (Object.keys(a)[0] < Object.keys(b)[0]) {
-    return 1;
-  }
-  return 0;
-});
-let stairsCalendarCard = document.querySelector('#stairs-calendar-card');
+let sleepCalendarCard = document.querySelector('#sleep-calendar-card');//used only once (click handler)
+let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');// used only once
+let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');//used only once
+let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');//used only once
+let sleepFriendsCard = document.querySelector('#sleep-friends-card');//used only once - click handler
+let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');//used only once
+let sleepInfoCard = document.querySelector('#sleep-info-card');//used only once - click handler
+let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');//used only once
+let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');//used only once
+let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');//used only once
+let sleepMainCard = document.querySelector('#sleep-main-card');//click handler
+let sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');// used only once
+let stairsCalendarCard = document.querySelector('#stairs-calendar-card');// click handler
 let stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
 let stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
 let stepsMainCard = document.querySelector('#steps-main-card');
@@ -107,6 +98,17 @@ profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 //Combine these four into a single click listener
+
+
+let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
+  if (Object.keys(a)[0] > Object.keys(b)[0]) {
+    return -1;
+  }
+  if (Object.keys(a)[0] < Object.keys(b)[0]) {
+    return 1;
+  }
+  return 0;
+});
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
@@ -149,16 +151,16 @@ function showInfo() { //click handler
     flipCard(stairsMainCard, stairsTrendingCard);
   }
   if (event.target.classList.contains('stairs-calendar-button')) {
-    flipCard(stairsMainCard, stairsCalendarCard);
+    flipCard(stairsMainCard, stairsCalendarCard);//
   }
   if (event.target.classList.contains('sleep-info-button')) {
-    flipCard(sleepMainCard, sleepInfoCard);
+    flipCard(sleepMainCard, sleepInfoCard);// //
   }
   if (event.target.classList.contains('sleep-friends-button')) {
-    flipCard(sleepMainCard, sleepFriendsCard);
+    flipCard(sleepMainCard, sleepFriendsCard);// //
   }
   if (event.target.classList.contains('sleep-calendar-button')) {
-    flipCard(sleepMainCard, sleepCalendarCard);//
+    flipCard(sleepMainCard, sleepCalendarCard);// //
   }
   if (event.target.classList.contains('steps-go-back-button')) {
     flipCard(event.target.parentNode, stepsMainCard);
@@ -170,7 +172,7 @@ function showInfo() { //click handler
     flipCard(event.target.parentNode, stairsMainCard);
   }
   if (event.target.classList.contains('sleep-go-back-button')) {
-    flipCard(event.target.parentNode, sleepMainCard);
+    flipCard(event.target.parentNode, sleepMainCard);//
   }
 }
 
@@ -198,43 +200,43 @@ headerName.innerText = `${user.getFirstName()}'S `; //Put these above four into 
 
 hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
   return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces;//Put in function, locally scope query selector, refactor with hydrationInfoGlassesToday.innerText
+}).numOunces;//Put in function, updates DOM - refactor with hydrationInfoGlassesToday.innerText?
 
-hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);//Put into function, locally scope query selector
+hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);//updates DOM -- Put into function, locally scope query selector
 
 hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
   return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces / 8;//Put in function, locally scope query selector, revisit if we want to keep this
+}).numOunces / 8;//Put in function, locally scope query selector
 
-sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
+sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);//updates DOM - seems to function properly -put in function, locally scope?
 
-sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
+sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);// updates DOM - seems to function properly - put in function, locally scope?
 
 sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
   return user.id === userRepository.getLongestSleepers(todayDate)
-}).getFirstName();
+}).getFirstName();//put in function - updates DOM -- seems to function properly - poorly named
 
 sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
   return user.id === userRepository.getWorstSleepers(todayDate)
-}).getFirstName();
+}).getFirstName();//put in function - updates DOM - seems to function properly
 
-sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
+sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;//place into function - updates DOM (overall number of hours average on page)
 
 stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
   return (activity.date === todayDate && activity.userId === user.id)
 }).calculateMiles(userRepository);
 
-sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
+sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;//should update the DOM - does not seem to appear on page, required in rubric
 
 sleepInfoQualityToday.innerText = sleepData.find(sleep => {
   return sleep.userID === user.id && sleep.date === todayDate;
-}).sleepQuality;
+}).sleepQuality;//place in function - update DOM for last night sleep quality
 
 sleepUserHoursToday.innerText = sleepData.find(sleep => {
   return sleep.userID === user.id && sleep.date === todayDate;
-}).hoursSlept;
+}).hoursSlept;//place in function - updates DOM
 
-stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
+stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);//place in function - updates the DOM
 
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 
@@ -247,8 +249,6 @@ stairsInfoFlightsToday.innerText = activityData.find(activity => {
 stairsUserStairsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).flightsOfStairs * 12;
-
-stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
 
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 
