@@ -80,12 +80,14 @@
       return sum;
     }, 0) / 7).toFixed(1);
   }
-  updateActivities(activity) {
+  // newLine
+  updateActivities(activity) { // adds activity to front of user's activityRecord
     this.activityRecord.unshift(activity);
-    if (activity.numSteps >= this.dailyStepGoal) {
+    if (activity.numSteps >= this.dailyStepGoal) { // should this be activity.steps???
       this.accomplishedDays.unshift(activity.date);
-    }
+    } // If user exceeds their step goal, the activity's date is added to user's accomplishedDays
   }
+  // newLine
   findClimbingRecord() {
     return this.activityRecord.sort((a, b) => {
       return b.flightsOfStairs - a.flightsOfStairs;
