@@ -21,6 +21,7 @@ $sleep-yellow: #FBD089;
 $card-font: 'Work Sans', sans-serif;
 $main-font: 'Oswald', sans-serif;
 
+//// Images ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 body {
@@ -72,6 +73,7 @@ button:active {
 }
 
 /* TEXT ELEMENTS */
+
 h1 {
   color: $white;
   display: inline;
@@ -284,7 +286,6 @@ main {
 .sleep-calendar-button {
   background-image: url(../images/sleep-calendar.png);
 }
-
 
 .steps-trending-button {
   background-image: url(../images/steps-trending.png);
