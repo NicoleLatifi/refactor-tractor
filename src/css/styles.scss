@@ -195,53 +195,30 @@ main {
 }
 
 /* BUTTONS */ // how many of these can be refactored using @extend?
-.info-button {
+.card-buttons {
   background-position: center;
   background-size: 3.4vw;
   border: none;
-  display: inline;
   height: 3.4vw;
-  margin-left: 1vw;
   width: 3.4vw;
+}
+
+.info-button, 
+.trending-button,
+.go-back-button {
+  @extend .card-buttons;
+  margin-left: 1vw;
 }
 
 .friends-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  display: inline;
-  height: 3.4vw;
+  @extend .card-buttons;
   margin-right: 1vw;
-  width: 3.4vw;
 }
 
 .calendar-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  display: inline;
+  @extend .card-buttons;
   float: right;
-  height: 3.4vw;
   margin-right: 1vw;
-  width: 3.4vw;
-}
-
-.trending-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  height: 3.4vw;
-  margin-left: 1vw;
-  width: 3.4vw;
-}
-
-.go-back-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  height: 3.4vw;
-  margin-left: 1vw;
-  width: 3.4vw;
 }
 
 .steps-go-back-button {
