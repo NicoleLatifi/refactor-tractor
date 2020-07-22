@@ -72,12 +72,12 @@ let stepsInfoCard = document.querySelector('#steps-info-card');//used only once 
 let stepsFriendsCard = document.querySelector('#steps-friends-card');//used only once - click handler
 let stepsTrendingCard = document.querySelector('#steps-trending-card'); // used only once - click handler
 let stepsCalendarCard = document.querySelector('#steps-calendar-card');// used only once - click handler
-let stairsFriendFlightsAverageToday = document.querySelector('#stairs-friend-flights-average-today');
-let stairsFriendsCard = document.querySelector('#stairs-friends-card');
-let stairsInfoCard = document.querySelector('#stairs-info-card');
-let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
-let stairsMainCard = document.querySelector('#stairs-main-card');
-let stairsTrendingButton = document.querySelector('.stairs-trending-button');
+let stairsFriendFlightsAverageToday = document.querySelector('#stairs-friend-flights-average-today');//used once only
+let stairsFriendsCard = document.querySelector('#stairs-friends-card');// used once - click handler
+let stairsInfoCard = document.querySelector('#stairs-info-card');//used once - click handler
+let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');//used once
+let stairsMainCard = document.querySelector('#stairs-main-card');// click handler
+let stairsTrendingButton = document.querySelector('.stairs-trending-button'); //used once
 let stairsTrendingCard = document.querySelector('#stairs-trending-card'); //used only once - click handler
 let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');//used only once
 let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');//used once
@@ -87,11 +87,11 @@ let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-min
 let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');//used only once
 let stepsFriendActiveMinutesAverageToday = document.querySelector('#steps-friend-active-minutes-average-today');//used only once
 let stepsFriendStepsAverageToday = document.querySelector('#steps-friend-steps-average-today');//used only once
-let stepsTrendingButton = document.querySelector('.steps-trending-button');
-let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
-let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
-let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
-let userInfoDropdown = document.querySelector('#user-info-dropdown');
+let stepsTrendingButton = document.querySelector('.steps-trending-button');//used once - event listener
+let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');//used once
+let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');//used once
+let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');//used once
+let userInfoDropdown = document.querySelector('#user-info-dropdown');//used once
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -117,7 +117,7 @@ function flipCard(cardToHide, cardToShow) {
 
 function showDropdown() {
   userInfoDropdown.classList.toggle('hide');
-}
+}// 
 
 function showInfo() { //click handler
   if (event.target.classList.contains('steps-info-button')) {
@@ -142,13 +142,13 @@ function showInfo() { //click handler
     flipCard(hydrationMainCard, hydrationCalendarCard);//
   }
   if (event.target.classList.contains('stairs-info-button')) {
-    flipCard(stairsMainCard, stairsInfoCard);
+    flipCard(stairsMainCard, stairsInfoCard);// //
   }
   if (event.target.classList.contains('stairs-friends-button')) {
-    flipCard(stairsMainCard, stairsFriendsCard);
+    flipCard(stairsMainCard, stairsFriendsCard);// //
   }
   if (event.target.classList.contains('stairs-trending-button')) {
-    flipCard(stairsMainCard, stairsTrendingCard);
+    flipCard(stairsMainCard, stairsTrendingCard); //
   }
   if (event.target.classList.contains('stairs-calendar-button')) {
     flipCard(stairsMainCard, stairsCalendarCard);//
@@ -169,7 +169,7 @@ function showInfo() { //click handler
     flipCard(event.target.parentNode, hydrationMainCard);//
   }
   if (event.target.classList.contains('stairs-go-back-button')) {
-    flipCard(event.target.parentNode, stairsMainCard);
+    flipCard(event.target.parentNode, stairsMainCard);// //
   }
   if (event.target.classList.contains('sleep-go-back-button')) {
     flipCard(event.target.parentNode, sleepMainCard);//
@@ -240,11 +240,11 @@ stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisW
 
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);//place into function - updates DOM
 
-stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
+stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);// place in function -- updates DOM, functioning -- all users
 
 stairsInfoFlightsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
-}).flightsOfStairs;
+}).flightsOfStairs;// put in function - daily flight count - updates DOM - might need API
 
 stairsUserStairsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
@@ -267,7 +267,7 @@ stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
 
 stepsUserStepsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
-}).numSteps;
+}).numSteps;// update DOM for daily user steps - functioning
 
 user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
 
