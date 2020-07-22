@@ -1,0 +1,41 @@
+header {
+  text-align: center;
+  height: 9vw;
+}
+
+button:active {
+  border: none;
+  outline: none;
+}
+
+#profile-button {
+  background-image: url(../images/profile.png);
+  background-position: center;
+  background-size: 5.6vw;
+  border: none;
+  display: inline;
+  float: right;
+  height: 5.6vw;
+  margin-right: .5vw;
+  margin-top: 1.6vw;
+  width: 5.6vw;
+}
+
+#user-info-dropdown {
+  background-color: $background-grey;
+  color: $white;
+  margin-left: 60%;
+  margin-top: -1.2%;
+  position: relative;
+  text-align: center;
+  z-index: 100;
+}
+
+.dropdown-p {
+  font-size: 1.2vw;
+  font-weight: 300;
+  padding-bottom: 1vw;
+  padding-top: 0;
+  text-align: center;
+  width: 100%;
+}
