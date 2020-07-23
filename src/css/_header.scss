@@ -1,0 +1,41 @@
+header {
+  text-align: center;
+  height: 9vw;
+}
+
+button:active {
+  border: none;
+  outline: none;
+}
+
+#profile-button {
+  background-image: url(../images/profile.png);
+  background-position: center; // maybe not doing anything?
+  background-size: 5.6vw; // We need this.
+  border: none; // hides the button border. we want this.
+  display: inline; // maybe not doing anything, like the button rules below that we got rid of?
+  float: right; // we need this to keep it on the far right. 
+  height: 5.6vw; // I think we want this or else it disappears, with or without the display rule.
+  margin-right: .5vw; // We want this to keep it a little ways away from the right edge of the window
+  margin-top: 1.6vw; // We want this to keep it inline with the header's h1
+  width: 5.6vw; // We want this or else it disappears
+}
+
+// It seems really out of place that all of this info is in here. Is this how we want to keep it?
+#user-info-dropdown { // do we eventually want to add functionality in js to this so that if the dropdown is open and you click outside of it it closes?
+  background-color: $background-grey; // We need this
+  color: $white; // We need this
+  margin-left: 60%; // Do we want to change this, so the section shows up as a second header?
+  position: relative; // We need this
+  // text-align: center; // We don't need this, it's being inherited from the header
+  // z-index: 100; // I don't think this is really making a difference
+}
+
+.dropdown-p {
+  // font-size: 1.2vw; // this is already being inherited from the universal p rule
+  font-weight: 300; // We need this to make the font lighter
+  padding-bottom: 1vw; // We want this
+  padding-top: 0; // We want this
+  text-align: center; // We need this
+  width: 100%; // We need this
+}

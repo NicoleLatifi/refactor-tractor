@@ -1,0 +1,82 @@
+main {
+  display: grid;
+  grid-template-areas:
+  'steps hydration'
+  'stairs sleep';
+  height: 100%;
+}
+
+.main-card {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 20vw;
+  justify-content: center;
+}
+
+.main-card-top-row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.main-card-bottom-row {
+  text-align: center;
+  width: 100%;
+}
+
+#steps-card-container {
+  background-color: $steps-orange;
+  grid-area: steps;
+  margin: .5vw;
+  border-radius: 1em;
+}
+
+#hydration-card-container {
+  background-color: $hydration-blue;
+  grid-area: hydration;
+  margin: .5vw;
+  border-radius: 1em;
+}
+
+#stairs-card-container {
+  background-color: $stairs-purple;
+  grid-area: stairs;
+  margin: .5vw;
+  border-radius: 1em;
+}
+
+#sleep-card-container {
+  background-color: $sleep-yellow;
+  grid-area: sleep;
+  margin: .5vw;
+  border-radius: 1em;
+}
+
+.card-data-line {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2vw;
+}
+
+.hydration-weekly-label {
+  font-size: 1vw;
+  padding-top: 1vw;
+}
+
+.hydration-weekly-amount {
+  font-size: 2vw;
+}
+
+.hydration-data-line {
+  display: flex;
+  justify-content: center;
+  margin-bottom: .2vw;
+}
+
+.trend-line {
+  font-size: 2vw;
+  text-align: center;
+  width: 20vw;
+}

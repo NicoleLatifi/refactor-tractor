@@ -1,0 +1,41 @@
+h1 {
+  color: $white;
+  display: inline;
+  font-size: 5.4vw;
+  letter-spacing: .2em;
+}
+
+h2 {
+  font-size: 7vw;
+  letter-spacing: .1em;
+}
+
+h3 {
+  display: inline;
+  font-family: $card-font;
+  font-size: 3vw;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
+
+h4 {
+  font-size: 6vw;
+}
+
+h5 {
+  font-size: 1.8vw;
+  padding-bottom: 1vw;
+  text-align: center;
+}
+
+p {
+  font-family: $card-font;
+  font-size: 1.2vw;
+  font-weight: 600;
+  letter-spacing: .2vw;
+  margin-right: 1vw;
+  padding-top: 2vw;
+  text-align: right;
+  width: 9vw;
+  word-break: keep-all;
+}

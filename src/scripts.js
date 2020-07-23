@@ -1,4 +1,3 @@
-import './css/base.scss';
 import './css/styles.scss';
 
 import userData from './data/users';
@@ -34,7 +33,7 @@ sleepData.forEach(sleep => {
 });
 
 let user = userRepository.users[0];
-let todayDate = "2019/09/22";
+let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current. 
 user.findFriendsNames(userRepository.users);
 
 let dailyOz = document.querySelectorAll('.daily-oz'); //used only once
