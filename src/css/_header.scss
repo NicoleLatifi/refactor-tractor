@@ -32,10 +32,10 @@ button:active {
 }
 
 .dropdown-p {
-  font-size: 1.2vw;
-  font-weight: 300;
-  padding-bottom: 1vw;
-  padding-top: 0;
-  text-align: center;
-  width: 100%;
+  // font-size: 1.2vw; // this is already being inherited from the universal p rule
+  font-weight: 300; // We need this to make the font lighter
+  padding-bottom: 1vw; // We want this
+  padding-top: 0; // We want this
+  text-align: center; // We need this
+  width: 100%; // We need this
 }
