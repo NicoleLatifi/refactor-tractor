@@ -1,6 +1,6 @@
 import './css/styles.scss';
 
-import userData from './data/users';
+// import userData from './data/users';
 import activityData from './data/activity';
 import sleepData from './data/sleep';
 import hydrationData from './data/hydration';
@@ -12,13 +12,23 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 
 
-
 let userRepository = new UserRepository();
 
-userData.forEach(user => {
-  user = new User(user);
-  userRepository.users.push(user)
-});
+window.onload = getUserData();
+
+function getUserData() { //may not live here, data model
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+    .then(response => response.json())
+    .then(data => setTimeout(storeUserData(data), 6000))
+    .catch(error => alert(error))
+}
+
+function storeUserData(data) { //may not live here, data model
+  data.userData.forEach(user => {
+    user = new User(user);
+    userRepository.users.push(user)
+  });
+}
 
 activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);
