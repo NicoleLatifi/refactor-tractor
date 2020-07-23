@@ -1,9 +1,9 @@
 .card-buttons {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  height: 3.4vw;
-  width: 3.4vw;
+  // background-position: center; // We don't think we need this?
+  background-size: 3.4vw; // Need
+  border: none; // Need
+  height: 3.4vw; // Need
+  width: 3.4vw; // Need
 }
 
 .info-button, 
@@ -24,6 +24,7 @@
   margin-right: 1vw;
 }
 
+// We can consilidate if we have images with no background color
 .steps-go-back-button {
   background-image: url(../images/steps-goback.png);
 }
