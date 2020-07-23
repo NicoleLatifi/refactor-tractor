@@ -30,24 +30,28 @@ main {
   background-color: $steps-orange;
   grid-area: steps;
   margin: .5vw;
+  border-radius: 1em;
 }
 
 #hydration-card-container {
   background-color: $hydration-blue;
   grid-area: hydration;
   margin: .5vw;
+  border-radius: 1em;
 }
 
 #stairs-card-container {
   background-color: $stairs-purple;
   grid-area: stairs;
   margin: .5vw;
+  border-radius: 1em;
 }
 
 #sleep-card-container {
   background-color: $sleep-yellow;
   grid-area: sleep;
   margin: .5vw;
+  border-radius: 1em;
 }
 
 .card-data-line {
