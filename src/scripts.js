@@ -14,62 +14,74 @@ import Sleep from './Sleep';
 
 let userRepository = new UserRepository();
 
-window.onload = getAllData();
+window.onload = getUserData();
 
-function getAllData() {
-  console.log(getUserData());
-  // getActivityData();
-}
-
-function getUserData() { //may not live here, data model
-  var dataSet = fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
-    .then(response => response.json())
-    .then(data => {
-      data.userData.forEach(user => {
-        user = new User(user);
-        userRepository.users.push(user);
-        return userRepository
-    })
-    // console.log(userRepository)
-  })
-  .catch(error => console.log(error));
-  // console.log(dataSet)
-  return dataSet
-  // console.log(userRepository.users)
-}; // working as expected
-
-// function storeUserData(data) { //may not live here, data model
-//   data.userData.forEach(user => {
-//     newUser = new User(user);
-//     userRepository.users.push(newUser)
-//   });
+// function getAllData() {
+//   getUserData();
+//   getActivityData();
+//   getAllData();
 // }
 
-// function getActivityData() {
-//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
-//     .then(response => response.json())
-//     .then(data => {
-//       data.activityData.forEach(user => {
-//       })
-//     })
-//     .catch(error => console.error(error));
-//   }
-  
-activityData.forEach(activity => {
-  activity = new Activity(activity, userRepository);
-});
-  
-hydrationData.forEach(hydration => {
-  hydration = new Hydration(hydration, userRepository);
-});
+function getUserData() {
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+    .then(response => response.json())
+    .then(data => storeUserData(data))
+    .then(() => getActivityData())
+    .then(() => getHydrationData())
+    .then(() => getSleepData())
+    .catch(error => console.log(error));
+} // working as expected
 
-sleepData.forEach(sleep => {
-  sleep = new Sleep(sleep, userRepository);
-});
+function storeUserData(data) {
+  data.userData.forEach(user => {
+    let newUser = new User(user);
+    userRepository.users.push(newUser)
+  });
+}
 
-let user = userRepository.users[0];
-let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current. 
+function getActivityData() {
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
+    .then(response => response.json())
+    .then(data => storeActivityData(data))
+    .catch(error => console.log(error));
+}
+  
+function storeActivityData(data) {
+  data.activityData.forEach(activity => {
+    activity = new Activity(activity, userRepository);
+  });
+}
+
+function getHydrationData() {
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
+    .then(response => response.json())
+    .then(data => storeHydrationData(data))
+    .catch(error => console.log(error));
+}
+
+function storeHydrationData(data) {
+  data.hydrationData.forEach(hydration => {
+    hydration = new Hydration(hydration, userRepository);
+  });
+}
+
+function getSleepData() {
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
+    .then(response => response.json())
+    .then(data => storeSleepData(data))
+    .catch(error => console.log(error))
+}
+
+function storeSleepData(data) {
+  data.sleepData.forEach(sleep => {
+    sleep = new Sleep(sleep, userRepository);
+  });
+}
+
+let user = userRepository.users[0]; //Now THIS is our problem. 
 user.findFriendsNames(userRepository.users);
+
+let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current. 
 
 let dailyOz = document.querySelectorAll('.daily-oz'); //used only once
 let dropdownEmail = document.querySelector('#dropdown-email'); //used only once
@@ -132,7 +144,6 @@ profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 //Combine these four into a single click listener
-
 
 let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
   if (Object.keys(a)[0] > Object.keys(b)[0]) {
@@ -287,7 +298,6 @@ stairsUserStairsToday.innerText = activityData.find(activity => {
 stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);//place in function - updates DOM
 
 stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate); //place in function - updates DOM
-
 
 stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate); //place in function - updates DOM - appears to function
 
