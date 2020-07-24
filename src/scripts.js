@@ -10,6 +10,7 @@ import User from './User';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
+let domStuff = require('../src/DomStuff')
 
 
 
@@ -24,16 +25,14 @@ activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);
 });
 
-hydrationData.forEach(hydration => {
-  hydration = new Hydration(hydration, userRepository);
-});
+
 
 sleepData.forEach(sleep => {
   sleep = new Sleep(sleep, userRepository);
 });
 
 let user = userRepository.users[0];
-let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current. 
+let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current.
 user.findFriendsNames(userRepository.users);
 
 let dailyOz = document.querySelectorAll('.daily-oz'); //used only once
@@ -48,7 +47,7 @@ let hydrationFriendsCard = document.querySelector('#hydration-friends-card'); //
 let hydrationInfoCard = document.querySelector('#hydration-info-card'); //used only once
 let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today'); //used only once
 let hydrationMainCard = document.querySelector('#hydration-main-card'); //used several times in showInfo()
-let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today'); //used only once
+//let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today'); //used only once
 let mainPage = document.querySelector('main'); //event listener
 let profileButton = document.querySelector('#profile-button'); //event listener
 let sleepCalendarCard = document.querySelector('#sleep-calendar-card');//used only once (click handler)
@@ -116,7 +115,7 @@ function flipCard(cardToHide, cardToShow) {
 
 function showDropdown() {
   userInfoDropdown.classList.toggle('hide');
-}// 
+}//
 
 function showInfo() { //click handler
   if (event.target.classList.contains('steps-info-button')) {
@@ -185,6 +184,7 @@ function updateTrendingStepDays() {
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 } //this function is the good one (replicated elsewhere) may be combined with updateTrendingStairsDays later on
 
+
 for (var i = 0; i < dailyOz.length; i++) {
   dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
 } //Put this in a function, convert into forEach, locally scope query selector
@@ -197,9 +197,11 @@ dropdownName.innerText = user.name.toUpperCase();//
 
 headerName.innerText = `${user.getFirstName()}'S `; //Put these above four into a loader function, and locally scope query selectors
 
-hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces;//Put in function, updates DOM - refactor with hydrationInfoGlassesToday.innerText?
+// hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
+//   return hydration.userID === user.id && hydration.date === todayDate;
+// }).numOunces;//Put in function, updates DOM - refactor with hydrationInfoGlassesToday.innerText?
+
+domStuff.modifyHydrationData(hydrationData, user, todayDate);
 
 hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);//updates DOM -- Put into function, locally scope query selector
 
@@ -291,3 +293,5 @@ friendsStepsParagraphs.forEach(paragraph => {
     paragraph.classList.add('yellow-text');
   }
 });
+
+module.exports = flipCard;
