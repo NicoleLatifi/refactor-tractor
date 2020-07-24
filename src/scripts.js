@@ -17,21 +17,25 @@ let userRepository = new UserRepository();
 window.onload = getAllData();
 
 function getAllData() {
-  getUserData();
-  getActivityData();
+  console.log(getUserData());
+  // getActivityData();
 }
 
 function getUserData() { //may not live here, data model
-  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+  var dataSet = fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
     .then(response => response.json())
     .then(data => {
       data.userData.forEach(user => {
-      user = new User(user);
-      userRepository.users.push(user);
+        user = new User(user);
+        userRepository.users.push(user);
+        return userRepository
     })
+    // console.log(userRepository)
   })
-  .catch(error => console.error(error));
-  console.log(userRepository.users)
+  .catch(error => console.log(error));
+  // console.log(dataSet)
+  return dataSet
+  // console.log(userRepository.users)
 }; // working as expected
 
 // function storeUserData(data) { //may not live here, data model
@@ -41,14 +45,20 @@ function getUserData() { //may not live here, data model
 //   });
 // }
 
-function getActivityData() {
-
-}
-
+// function getActivityData() {
+//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
+//     .then(response => response.json())
+//     .then(data => {
+//       data.activityData.forEach(user => {
+//       })
+//     })
+//     .catch(error => console.error(error));
+//   }
+  
 activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);
 });
-
+  
 hydrationData.forEach(hydration => {
   hydration = new Hydration(hydration, userRepository);
 });
