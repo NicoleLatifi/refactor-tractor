@@ -14,20 +14,35 @@ import Sleep from './Sleep';
 
 let userRepository = new UserRepository();
 
-window.onload = getUserData();
+window.onload = getAllData();
+
+function getAllData() {
+  getUserData();
+  getActivityData();
+}
 
 function getUserData() { //may not live here, data model
   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
     .then(response => response.json())
-    .then(data => setTimeout(storeUserData(data), 6000))
-    .catch(error => alert(error))
-}
+    .then(data => {
+      data.userData.forEach(user => {
+      user = new User(user);
+      userRepository.users.push(user);
+    })
+  })
+  .catch(error => console.error(error));
+  console.log(userRepository.users)
+}; // working as expected
 
-function storeUserData(data) { //may not live here, data model
-  data.userData.forEach(user => {
-    user = new User(user);
-    userRepository.users.push(user)
-  });
+// function storeUserData(data) { //may not live here, data model
+//   data.userData.forEach(user => {
+//     newUser = new User(user);
+//     userRepository.users.push(newUser)
+//   });
+// }
+
+function getActivityData() {
+
 }
 
 activityData.forEach(activity => {
