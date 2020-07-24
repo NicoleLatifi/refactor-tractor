@@ -12,7 +12,7 @@ class Activity {
   }
   // newLine
   doActivity(userRepo) { // takes in the userRepository (invoked in Activity class constructor, above)
-    // console.log(userRepo.users)
+    // console.log("A glitchy empty array full of users", userRepo.users)
     var activity = this;
     var targetUser = userRepo.users.find(user => { // converted to ES6 arrow syntax ✔️
       return user.id === activity.userId; // locates & retrieves associated user
