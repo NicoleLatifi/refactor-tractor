@@ -1,6 +1,6 @@
 import './css/styles.scss';
 
-// import userData from './data/users';
+import userData from './data/users';
 import activityData from './data/activity';
 import sleepData from './data/sleep';
 import hydrationData from './data/hydration';
@@ -13,70 +13,79 @@ import Sleep from './Sleep';
 
 
 let userRepository = new UserRepository();
+// As we refactor, keep in mind that when we implement fetch, 
+// we will need to make sure that things aren't dependent on 
+// the promise being resolved before the rest of this script 
+// runs synchronously
 
-window.onload = getUserData();
+window.onload = getAllData();
 
-// function getAllData() {
-//   getUserData();
-//   getActivityData();
-//   getAllData();
-// }
+function getAllData() {
+  storeUserData();
+  storeActivityData();
+  storeHydrationData();
+  storeSleepData();
+}
 
-function getUserData() {
-  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
-    .then(response => response.json())
-    .then(data => storeUserData(data))
-    .then(() => getActivityData())
-    .then(() => getHydrationData())
-    .then(() => getSleepData())
-    .catch(error => console.log(error));
-} // working as expected
+// function getUserData() {
+//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+//     .then(response => response.json())
+//     .then(data => storeUserData(data))
+//     .then(() => getActivityData())
+//     .then(() => getHydrationData())
+//     .then(() => getSleepData())
+//     .catch(error => console.log(error));
+// } // working as expected
 
-function storeUserData(data) {
-  data.userData.forEach(user => {
+function storeUserData() {
+  userData.forEach(user => {
     let newUser = new User(user);
     userRepository.users.push(newUser)
   });
 }
 
-function getActivityData() {
-  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
-    .then(response => response.json())
-    .then(data => storeActivityData(data))
-    .catch(error => console.log(error));
-}
+// function getActivityData() {
+//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
+//     .then(response => response.json())
+//     .then(data => storeActivityData(data))
+//     .catch(error => console.log(error));
+// }
   
-function storeActivityData(data) {
-  data.activityData.forEach(activity => {
+function storeActivityData() { // Need to change when fetching
+  activityData.forEach(activity => {
     activity = new Activity(activity, userRepository);
   });
 }
 
-function getHydrationData() {
-  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
-    .then(response => response.json())
-    .then(data => storeHydrationData(data))
-    .catch(error => console.log(error));
-}
+// function getHydrationData() {
+//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
+//     .then(response => response.json())
+//     .then(data => storeHydrationData(data))
+//     .catch(error => console.log(error));
+// }
 
-function storeHydrationData(data) {
-  data.hydrationData.forEach(hydration => {
+function storeHydrationData() {
+  hydrationData.forEach(hydration => {
     hydration = new Hydration(hydration, userRepository);
   });
 }
 
-function getSleepData() {
-  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
-    .then(response => response.json())
-    .then(data => storeSleepData(data))
-    .catch(error => console.log(error))
-}
+// function getSleepData() {
+//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
+//     .then(response => response.json())
+//     .then(data => storeSleepData(data))
+//     .catch(error => console.log(error))
+// }
 
-function storeSleepData(data) {
-  data.sleepData.forEach(sleep => {
+function storeSleepData() {
+  sleepData.forEach(sleep => {
     sleep = new Sleep(sleep, userRepository);
   });
 }
+
+// sleepData.forEach(sleep => {
+//     sleep = new Sleep(sleep, userRepository);
+//   });
 
 let user = userRepository.users[0]; //Now THIS is our problem. 
 user.findFriendsNames(userRepository.users);
