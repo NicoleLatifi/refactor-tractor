@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
   <head>
     <meta charset='UTF-8'>
     <title>Trisha & Kayla's FitLit</title>
@@ -9,7 +9,7 @@
   <body>
     <header>
       <h1><span id='header-name'></span>FITLIT</h1>
-      <button type='button' name='button' id='profile-button'></button>
+      <button type='button' name='button' id='profile-button' aria-label='user-profile'></button>
       <section class='hide' id='user-info-dropdown'>
         <h5 id='dropdown-name'></h5>
         <p class='dropdown-p' id='dropdown-email'></p>
@@ -23,19 +23,19 @@
       <section class='card-container' id='steps-card-container'>
         <section class='main-card' id='steps-main-card'>
           <div class='main-card-top-row'>
-            <button type='button' name='button' class='info-button steps-info-button'></button>
+            <button type='button' name='button' class='info-button steps-info-button' aria-label='steps-info'></button>
             <h3>YOU HAVE WALKED</h3>
-            <button type='button' name='button' class='friends-button steps-friends-button'></button>
+            <button type='button' name='button' class='friends-button steps-friends-button' aria-label='steps-friends'></button>
           </div>
           <h2 id='steps-user-steps-today'>X</h2>
           <div class='main-card-top-row'>
-            <button type='button' name='button' class='trending-button steps-trending-button'></button>
+            <button type='button' name='button' class='trending-button steps-trending-button' aria-label='steps-trending'></button>
             <h3>STEPS TODAY</h3>
-            <button type='button' name='button' class='calendar-button steps-calendar-button'></button>
+            <button type='button' name='button' class='calendar-button steps-calendar-button' aria-label='steps-calendar'></button>
           </div>
         </section>
         <section class='info-card hide' id='steps-info-card'>
-          <button type='button' name='button' class='go-back-button steps-go-back-button'></button>
+          <button type='button' name='button' class='go-back-button steps-go-back-button' aria-label='steps-go-back'></button>
           <div class='card-data-line'>
             <p>TOTAL ACTIVE MINUTES TODAY:</p>
             <h4 id='steps-info-active-minutes-today'></h4>
@@ -46,7 +46,7 @@
           </div>
         </section>
         <section class='friends-card hide' id='steps-friends-card'>
-          <button type='button' name='button' class='go-back-button steps-go-back-button'></button>
+          <button type='button' name='button' class='go-back-button steps-go-back-button' aria-label='steps-go-button'></button>
           <div class='card-data-line'>
             <p>ALL USERS' AVERAGE ACTIVE MINUTES TODAY:</p>
             <h4 id='steps-friend-active-minutes-average-today'></h4>
@@ -61,12 +61,12 @@
           </div>
         </section>
         <section class='trending-card hide' id='steps-trending-card'>
-          <button type='button' name='button' class='go-back-button steps-go-back-button'></button>
+          <button type='button' name='button' class='go-back-button steps-go-back-button' aria-label='steps-go-button'></button>
           <div class='card-data-line trending-steps-phrase-container'>
           </div>
         </section>
         <section class='calendar-card hide' id='steps-calendar-card'>
-          <button type='button' name='button' class='go-back-button steps-go-back-button'></button>
+          <button type='button' name='button' class='go-back-button steps-go-back-button' aria-label='steps-go-button'></button>
           <div class='card-data-line'>
             <p>YOUR WEEKLY AVERAGE MINUTES:</p>
             <h4 id='steps-calendar-total-active-minutes-weekly'></h4>
