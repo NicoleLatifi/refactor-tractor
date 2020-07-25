@@ -230,12 +230,6 @@ function showInfo() { //click handler
   }
 }
 
-function updateTrendingStairsDays() {
-  user.findTrendingStairsDays();
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-}//may be appropriate to combine with updateTrendingStepDays
-
-
 function updateDropdown() {
   dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;//
   dropdownEmail.innerText = `EMAIL | ${user.email}`;//
@@ -355,20 +349,40 @@ function updateStepsTrendingCard() {
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 } //this function is the good one (replicated elsewhere) may be combined with updateTrendingStairsDays later on
 
+function updateAllStairsCards() {
+  updateStairsMainCard();
+  updateStairsInfoCard();
+  updateStairsFriendCard();
+  updateStairsCalendarCard();
+  updateStairsTrendingCard();
+}
 
-stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);//place in function - updates the DOM - working
+function updateStairsMainCard() {
+  stairsUserStairsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).flightsOfStairs * 12;// place in function - updated DOM - seems to work
+}
 
-stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);//place into function - updates DOM
+function updateStairsInfoCard() {
+  stairsInfoFlightsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).flightsOfStairs;// put in function - daily flight count - updates DOM - might need API
+}
 
-stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);// place in function -- updates DOM, functioning -- all users
+function updateStairsFriendCard() {
+  stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);// place in function -- updates DOM, functioning -- all users
+}
 
-stairsInfoFlightsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).flightsOfStairs;// put in function - daily flight count - updates DOM - might need API
+function updateStairsCalendarCard() {
+  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);//place in function - updates the DOM - working
 
-stairsUserStairsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).flightsOfStairs * 12;// place in function - updated DOM - seems to work
+  stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);//place into function - updates DOM
+}
+
+function updateStairsTrendingCard() {
+  user.findTrendingStairsDays();
+  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
+}//may be appropriate to combine with updateTrendingStepDays
 
 user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
 
