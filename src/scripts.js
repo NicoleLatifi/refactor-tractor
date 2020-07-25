@@ -235,11 +235,6 @@ function updateTrendingStairsDays() {
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
 }//may be appropriate to combine with updateTrendingStepDays
 
-function updateTrendingStepDays() {
-  user.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
-} //this function is the good one (replicated elsewhere) may be combined with updateTrendingStairsDays later on
-
 
 function updateDropdown() {
   dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;//
@@ -316,12 +311,49 @@ function updateSleepCalendarCard() {
   sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);// updates DOM - seems to function properly - put in function, locally scope?
 }
 
+function updateAllStepsCards() {
+  updateStepsMainCard();
+  updateStepsInfoCard();
+  updateStepsFriendCard();
+  updateStepsCalendarCard();
+  updateStepsTrendingCard();
+}
 
-stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
-  return (activity.date === todayDate && activity.userId === user.id)
-}).calculateMiles(userRepository); //place in function - updates DOM - fuctional
+function updateStepsMainCard() {
+  stepsUserStepsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).numSteps;// update DOM for daily user steps - functioning
+}
 
+function updateStepsInfoCard() {
+  stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).minutesActive;// place in funtion - updates DOM - functional
+  
+  stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
+    return (activity.date === todayDate && activity.userId === user.id)
+  }).calculateMiles(userRepository); //place in function - updates DOM - fuctional
+  
+}
 
+function updateStepsFriendCard() {
+  stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate); //place in function - updates DOM - appears to function
+  
+  stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);//place in function - updates DOM appears in  user icon flip
+  
+  stepsFriendAverageStepGoal.innerText = userRepository.calculateAverageStepGoal();//place in function - updates DOM - appears in user icon flip
+}
+
+function updateStepsCalendarCard() {
+  stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);//place in function - updates DOM
+
+  stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate); //place in function - updates DOM
+}
+
+function updateStepsTrendingCard() {
+  user.findTrendingStepDays();
+  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
+} //this function is the good one (replicated elsewhere) may be combined with updateTrendingStairsDays later on
 
 
 stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);//place in function - updates the DOM - working
@@ -337,24 +369,6 @@ stairsInfoFlightsToday.innerText = activityData.find(activity => {
 stairsUserStairsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).flightsOfStairs * 12;// place in function - updated DOM - seems to work
-
-stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);//place in function - updates DOM
-
-stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate); //place in function - updates DOM
-
-stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate); //place in function - updates DOM - appears to function
-
-stepsFriendAverageStepGoal.innerText = userRepository.calculateAverageStepGoal();//place in function - updates DOM - appears in user icon flip
-
-stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);//place in function - updates DOM appears in  user icon flip
-
-stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).minutesActive;// place in funtion - updates DOM - functional
-
-stepsUserStepsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).numSteps;// update DOM for daily user steps - functioning
 
 user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
 
