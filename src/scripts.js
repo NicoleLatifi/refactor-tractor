@@ -240,55 +240,89 @@ function updateTrendingStepDays() {
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 } //this function is the good one (replicated elsewhere) may be combined with updateTrendingStairsDays later on
 
-for (var i = 0; i < dailyOz.length; i++) {
-  dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
-} //Put this in a function, convert into forEach, locally scope query selector
 
-dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;//
+function updateDropdown() {
+  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;//
+  dropdownEmail.innerText = `EMAIL | ${user.email}`;//
+  dropdownName.innerText = user.name.toUpperCase();//
+}
 
-dropdownEmail.innerText = `EMAIL | ${user.email}`;//
+function updateHeader() {
+  headerName.innerText = `${user.getFirstName()}'S `; //Put these above four into a loader function, and locally scope query selectors
+}
 
-dropdownName.innerText = user.name.toUpperCase();//
+function updateAllHydration() {
+  updateHydrationMainCard();
+  updateHydrationInfoCard();
+  updateHydrationFriendCard();
+  updateHydrationCalendarCard(); // where is the DOM for this card?
+}
 
-headerName.innerText = `${user.getFirstName()}'S `; //Put these above four into a loader function, and locally scope query selectors
+function updateHydrationMainCard() {
+  hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
+    return hydration.userID === user.id && hydration.date === todayDate;
+  }).numOunces;//Put in function, updates DOM - refactor with hydrationInfoGlassesToday.innerText?
+}
 
-hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces;//Put in function, updates DOM - refactor with hydrationInfoGlassesToday.innerText?
+function updateHydrationFriendCard() {
+  hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);//updates DOM -- Put into function, locally scope query selector
+}
 
-hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);//updates DOM -- Put into function, locally scope query selector
+function updateHydrationInfoCard() {
+  hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
+    return hydration.userID === user.id && hydration.date === todayDate;
+  }).numOunces / 8;//Put in function, locally scope query selector
+}
 
-hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces / 8;//Put in function, locally scope query selector
+function updateHydrationCalendarCard() {
+  for (var i = 0; i < dailyOz.length; i++) {
+    dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
+  } //Put this in a function, convert into forEach, locally scope query selector
+}
 
-sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);//updates DOM - seems to function properly -put in function, locally scope?
+function updateAllSleep() {
+  updateSleepMainCard();
+  updateSleepInfoCard();
+  updateSleepFriendCard();
+  updateSleepCalendarCard();
+}
 
-sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);// updates DOM - seems to function properly - put in function, locally scope?
+function updateSleepMainCard() {
+  sleepUserHoursToday.innerText = sleepData.find(sleep => {
+    return sleep.userID === user.id && sleep.date === todayDate;
+  }).hoursSlept;//place in function - updates DOM
+}
 
-sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getLongestSleepers(todayDate)
-}).getFirstName();//put in function - updates DOM -- seems to function properly - poorly named
+function updateSleepInfoCard() {
+  sleepInfoQualityToday.innerText = sleepData.find(sleep => {
+    return sleep.userID === user.id && sleep.date === todayDate;
+  }).sleepQuality;//place in function - update DOM for last night sleep quality
+  sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;//should update the DOM - does not seem to appear on page, required in rubric
+  sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;//place into function - updates DOM (overall number of hours average on page)
+}
 
-sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getWorstSleepers(todayDate)
-}).getFirstName();//put in function - updates DOM - seems to function properly
+function updateSleepFriendCard() {
+  sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
+    return user.id === userRepository.getLongestSleepers(todayDate)
+  }).getFirstName();//put in function - updates DOM -- seems to function properly - poorly named
+  
+  sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
+    return user.id === userRepository.getWorstSleepers(todayDate)
+  }).getFirstName();//put in function - updates DOM - seems to function properly
+}
 
-sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;//place into function - updates DOM (overall number of hours average on page)
+function updateSleepCalendarCard() {
+  sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);//updates DOM - seems to function properly -put in function, locally scope?
+  sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);// updates DOM - seems to function properly - put in function, locally scope?
+}
+
 
 stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
   return (activity.date === todayDate && activity.userId === user.id)
 }).calculateMiles(userRepository); //place in function - updates DOM - fuctional
 
-sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;//should update the DOM - does not seem to appear on page, required in rubric
 
-sleepInfoQualityToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).sleepQuality;//place in function - update DOM for last night sleep quality
 
-sleepUserHoursToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).hoursSlept;//place in function - updates DOM
 
 stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);//place in function - updates the DOM - working
 
