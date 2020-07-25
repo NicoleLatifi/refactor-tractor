@@ -154,16 +154,6 @@ stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 //Combine these four into a single click listener
 
-let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
-  if (Object.keys(a)[0] > Object.keys(b)[0]) {
-    return -1;
-  }
-  if (Object.keys(a)[0] < Object.keys(b)[0]) {
-    return 1;
-  }
-  return 0;
-});
-
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
   cardToShow.classList.remove('hide');
@@ -273,11 +263,11 @@ function updateHeader() {
   headerName.innerText = `${user.getFirstName()}'S `; //Put these above four into a loader function, and locally scope query selectors
 }
 
-function updateAllHydrationCards() {
+function updateAllHydrationCards() { // hydration card handler
   updateHydrationMainCard();
   updateHydrationInfoCard();
   updateHydrationFriendCard();
-  updateHydrationCalendarCard(); // where is the DOM for this card?
+  updateHydrationCalendarCard();
 }
 
 function updateHydrationMainCard() {
@@ -296,13 +286,26 @@ function updateHydrationInfoCard() {
   }).numOunces / 8;//Put in function, locally scope query selector
 }
 
+function sortHydration() {
+  return user.ouncesRecord.sort((a, b) => {
+    if (Object.keys(a)[0] > Object.keys(b)[0]) {
+      return -1;
+    }
+    if (Object.keys(a)[0] < Object.keys(b)[0]) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
 function updateHydrationCalendarCard() {
+  let sortedHydrationDataByDate = sortHydration();
   for (var i = 0; i < dailyOz.length; i++) {
     dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
   } //Put this in a function, convert into forEach, locally scope query selector
 }
 
-function updateAllSleepCards() {
+function updateAllSleepCards() { // sleep card handler
   updateSleepMainCard();
   updateSleepInfoCard();
   updateSleepFriendCard();
@@ -338,7 +341,7 @@ function updateSleepCalendarCard() {
   sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);// updates DOM - seems to function properly - put in function, locally scope?
 }
 
-function updateAllStepsCards() {
+function updateAllStepsCards() { // steps card handler
   updateStepsMainCard();
   updateStepsInfoCard();
   updateStepsFriendCard();
@@ -382,7 +385,7 @@ function updateStepsTrendingCard() {
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 } //this function is the good one (replicated elsewhere) may be combined with updateTrendingStairsDays later on
 
-function updateAllStairsCards() {
+function updateAllStairsCards() { // stairs card handler
   updateStairsMainCard();
   updateStairsInfoCard();
   updateStairsFriendCard();
