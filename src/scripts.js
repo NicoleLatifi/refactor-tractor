@@ -230,17 +230,50 @@ function showInfo() { //click handler
   }
 }
 
+function updateFriendsStepDisplay() { //dropdown handler
+  updateDropdown();
+  createFriendsStepList();
+  styleFriends();
+}
+
 function updateDropdown() {
   dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;//
   dropdownEmail.innerText = `EMAIL | ${user.email}`;//
   dropdownName.innerText = user.name.toUpperCase();//
 }
 
+function createFriendsStepList() {
+  user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
+  
+  user.friendsActivityRecords.forEach(friend => {
+    dropdownFriendsStepsContainer.innerHTML += `
+    <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+    `;
+  });
+  //Put this in a function, locally scope query selector
+}
+
+function styleFriends() {
+  let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
+  //Should this be with globally scoped query selectors?
+  friendsStepsParagraphs.forEach(paragraph => {
+    if (friendsStepsParagraphs[0] === paragraph) {
+      paragraph.classList.add('green-text');
+    }
+    if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
+      paragraph.classList.add('red-text');
+    }
+    if (paragraph.innerText.includes('YOU')) {
+      paragraph.classList.add('yellow-text');
+    }
+  });
+}
+
 function updateHeader() {
   headerName.innerText = `${user.getFirstName()}'S `; //Put these above four into a loader function, and locally scope query selectors
 }
 
-function updateAllHydration() {
+function updateAllHydrationCards() {
   updateHydrationMainCard();
   updateHydrationInfoCard();
   updateHydrationFriendCard();
@@ -269,7 +302,7 @@ function updateHydrationCalendarCard() {
   } //Put this in a function, convert into forEach, locally scope query selector
 }
 
-function updateAllSleep() {
+function updateAllSleepCards() {
   updateSleepMainCard();
   updateSleepInfoCard();
   updateSleepFriendCard();
@@ -383,27 +416,3 @@ function updateStairsTrendingCard() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
 }//may be appropriate to combine with updateTrendingStepDays
-
-user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
-
-user.friendsActivityRecords.forEach(friend => {
-  dropdownFriendsStepsContainer.innerHTML += `
-  <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
-  `;
-});
-//Put this in a function, locally scope query selector
-
-let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-//Should this be with globally scoped query selectors?
-
-friendsStepsParagraphs.forEach(paragraph => {
-  if (friendsStepsParagraphs[0] === paragraph) {
-    paragraph.classList.add('green-text');
-  }
-  if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
-    paragraph.classList.add('red-text');
-  }
-  if (paragraph.innerText.includes('YOU')) {
-    paragraph.classList.add('yellow-text');
-  }
-});
