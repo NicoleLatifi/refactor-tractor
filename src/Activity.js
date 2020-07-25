@@ -12,11 +12,15 @@ class Activity {
   }
   // newLine
   doActivity(userRepo) { // takes in the userRepository (invoked in Activity class constructor, above)
+    // console.log("A glitchy empty array full of users", userRepo.users)
     var activity = this;
-    userRepo.users.find(user => { // converted to ES6 arrow syntax ✔️
+    var targetUser = userRepo.users.find(user => { // converted to ES6 arrow syntax ✔️
       return user.id === activity.userId; // locates & retrieves associated user
-    }).updateActivities(this); // adds activity to user's activityRecord, and adds date of activity to user's accomplishedDays if step goal is reached.
+    });
+    targetUser.updateActivities(this); // adds activity to user's activityRecord, and adds date of activity to user's accomplishedDays if step goal is reached.
+    
   }
+
   // newLine
   calculateMiles(userRepository) { // invoked in scripts on line 224
     let walkingUser = userRepository.users.find(user => { 

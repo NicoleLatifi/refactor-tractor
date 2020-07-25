@@ -1,8 +1,3 @@
-//// Questions:
-// Since we have split everything up now, does it need to be imported into an index.scss to become active styling on the page? Or will it be read with this stylesheet, and be conflicting?
-
-// I guess the second part to that question is: To continue working on the css now that we've copied it over to the partials, shouldn't we make the import/index.scss and be working from there as we move forward? ( so we don't have to make changes here and then do it there as well blah blah blah.
-
 @import 'variables';
 @import 'base';
 @import 'header';

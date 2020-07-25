@@ -12,29 +12,85 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 
 
-
 let userRepository = new UserRepository();
+// As we refactor, keep in mind that when we implement fetch, 
+// we will need to make sure that things aren't dependent on 
+// the promise being resolved before the rest of this script 
+// runs synchronously
 
-userData.forEach(user => {
-  user = new User(user);
-  userRepository.users.push(user)
-});
+window.onload = getAllData();
 
-activityData.forEach(activity => {
-  activity = new Activity(activity, userRepository);
-});
+function getAllData() {
+  storeUserData();
+  storeActivityData();
+  storeHydrationData();
+  storeSleepData();
+}
 
-hydrationData.forEach(hydration => {
-  hydration = new Hydration(hydration, userRepository);
-});
+// function getUserData() {
+//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+//     .then(response => response.json())
+//     .then(data => storeUserData(data))
+//     .then(() => getActivityData())
+//     .then(() => getHydrationData())
+//     .then(() => getSleepData())
+//     .catch(error => console.log(error));
+// } // working as expected
 
-sleepData.forEach(sleep => {
-  sleep = new Sleep(sleep, userRepository);
-});
+function storeUserData() {
+  userData.forEach(user => {
+    let newUser = new User(user);
+    userRepository.users.push(newUser)
+  });
+}
 
-let user = userRepository.users[0];
-let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current. 
+// function getActivityData() {
+//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
+//     .then(response => response.json())
+//     .then(data => storeActivityData(data))
+//     .catch(error => console.log(error));
+// }
+  
+function storeActivityData() { // Need to change when fetching
+  activityData.forEach(activity => {
+    activity = new Activity(activity, userRepository);
+  });
+}
+
+// function getHydrationData() {
+//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
+//     .then(response => response.json())
+//     .then(data => storeHydrationData(data))
+//     .catch(error => console.log(error));
+// }
+
+function storeHydrationData() {
+  hydrationData.forEach(hydration => {
+    hydration = new Hydration(hydration, userRepository);
+  });
+}
+
+// function getSleepData() {
+//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
+//     .then(response => response.json())
+//     .then(data => storeSleepData(data))
+//     .catch(error => console.log(error))
+// }
+
+function storeSleepData() {
+  sleepData.forEach(sleep => {
+    sleep = new Sleep(sleep, userRepository);
+  });
+}
+
+// sleepData.forEach(sleep => {
+//     sleep = new Sleep(sleep, userRepository);
+//   });
+
+let user = userRepository.users[0]; //Now THIS is our problem. 
 user.findFriendsNames(userRepository.users);
+
+let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current. 
 
 let dailyOz = document.querySelectorAll('.daily-oz'); //used only once
 let dropdownEmail = document.querySelector('#dropdown-email'); //used only once
@@ -97,7 +153,6 @@ profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 //Combine these four into a single click listener
-
 
 let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
   if (Object.keys(a)[0] > Object.keys(b)[0]) {
@@ -252,7 +307,6 @@ stairsUserStairsToday.innerText = activityData.find(activity => {
 stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);//place in function - updates DOM
 
 stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate); //place in function - updates DOM
-
 
 stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate); //place in function - updates DOM - appears to function
 
