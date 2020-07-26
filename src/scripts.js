@@ -345,20 +345,32 @@ function updateAllSleepCards() { // Sleep card handler
 
 function updateSleepMainCard() {
   let sleepUserHoursToday = document.querySelector("#sleep-user-hours-today");
-  sleepUserHoursToday.innerText = sleepData.find((sleep) => { // <------------------------------- Uses SLEEPDATA
-    return sleep.userID === user.id && sleep.date === todayDate;
-  }).hoursSlept;
+  let sleepHoursEntry = sleepData.find((sleep) => {
+    return sleep.userId === user.id && sleep.date === todayDate;
+  });
+  if (sleepHoursEntry === undefined) {
+    sleepUserHoursToday.innerText = 0;
+  } else {
+    sleepUserHoursToday.innerText = sleepHoursEntry.hoursSlept;
+  }
 }
 
 function updateSleepInfoCard() {
   let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
   let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
   let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-  sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage; // should update the DOM - does not seem to appear on page, required in rubric <-- ???
-  sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-  sleepInfoQualityToday.innerText = sleepData.find(sleep => { // <------------------------------- Uses SLEEPDATA
-    return sleep.userID === user.id && sleep.date === todayDate;
-  }).sleepQuality;
+  let sleepInfoEntry = sleepData.find(sleep => {
+    return sleep.userId === user.id && sleep.date === todayDate;
+  });
+  if (sleepInfoEntry === undefined) {
+    sleepInfoQualityToday.innerText = 0;
+    sleepInfoQualityAverageAlltime.innerText = 0;
+    sleepInfoHoursAverageAlltime.innerText = 0;
+  } else {
+    sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality;
+    sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
+    sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
+  }
 }
 
 function updateSleepFriendCard() {
@@ -417,7 +429,7 @@ function updateStepsInfoCard() {
   if (milesActivityEntry === undefined) {
     stepsInfoMilesWalkedToday.innerText = 0;
   } else {
-    stepsInfoMilesWalkedToday.innerText = milesActityEntry.calculateMiles(userRepository);
+    stepsInfoMilesWalkedToday.innerText = milesActivityEntry.calculateMiles(userRepository);
   }
 }
 
