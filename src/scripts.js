@@ -403,13 +403,22 @@ function updateStepsMainCard() {
 function updateStepsInfoCard() {
   let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
   let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-  stepsInfoActiveMinutesToday.innerText = activityData.find(activity => { // <------------------------------- Uses ACTIVITYDATA
+  let activityEntry = activityData.find(activity => { // <------------------------------- Uses ACTIVITYDATA
     return activity.userId === user.id && activity.date === todayDate;
-  }).minutesActive;
-
-  stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
-    return (activity.date === todayDate && activity.userId === user.id)
-  }).calculateMiles(userRepository);
+  });
+  if (activityEntry === undefined) {
+    stepsInfoActiveMinutesToday.innerText = 0;
+  } else {
+    stepsInfoActiveMinutesToday.innerText = activityEntry.minutesActive;
+  }
+  let milesActivityEntry = user.activityRecord.find(activity => {
+    return (activity.date === todayDate && activity.userId === user.id);
+  });
+  if (milesActivityEntry === undefined) {
+    stepsInfoMilesWalkedToday.innerText = 0;
+  } else {
+    stepsInfoMilesWalkedToday.innerText = milesActityEntry.calculateMiles(userRepository);
+  }
 }
 
 function updateStepsFriendCard() {
