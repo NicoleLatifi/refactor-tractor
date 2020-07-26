@@ -1,26 +1,32 @@
 import './css/styles.scss';
-
 import userData from './data/users';
 import activityData from './data/activity';
 import sleepData from './data/sleep';
 import hydrationData from './data/hydration';
-
 import UserRepository from './UserRepository';
 import User from './User';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 
-
+let mainPage = document.querySelector('main');
+let profileButton = document.querySelector('#profile-button');
+let stairsTrendingButton = document.querySelector('.stairs-trending-button');
+let stepsTrendingButton = document.querySelector('.steps-trending-button');
 let userRepository = new UserRepository();
 let user;
-let todayDate = "2019/09/22";
-// As we refactor, keep in mind that when we implement fetch, 
-// we will need to make sure that things aren't dependent on 
-// the promise being resolved before the rest of this script 
-// runs synchronously
+let todayDate = "2019/09/22"; 
+// convert to function so today's date is dynamic, and always current. ⏱
 
 window.onload = getAllData();
+mainPage.addEventListener('click', showInfo);
+profileButton.addEventListener('click', showDropdown);
+stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
+stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+// ⬆ Combine these four into a single click listener ⤴
+
+setTimeout(launchDomSequence(), 0); 
+// Where does this really wanna live? THIS is a big one. <----------------- !!!
 
 function getAllData() {
   storeUserData();
@@ -101,40 +107,21 @@ function storeSleepData() {
   });
 }
 
-// let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current. ⏱
-
-let mainPage = document.querySelector('main'); //event listener
-let profileButton = document.querySelector('#profile-button'); //event listener
-let stepsCalendarCard = document.querySelector('#steps-calendar-card');// used only once - click handler
-let stairsFriendsCard = document.querySelector('#stairs-friends-card');// used once - click handler
-let stairsInfoCard = document.querySelector('#stairs-info-card');//used once - click handler
-let stairsMainCard = document.querySelector('#stairs-main-card');// click handler
-let stairsTrendingButton = document.querySelector('.stairs-trending-button'); //used once
-let stairsTrendingCard = document.querySelector('#stairs-trending-card'); //used only once - click handler
-let stepsTrendingButton = document.querySelector('.steps-trending-button');//used once - event listener
-let userInfoDropdown = document.querySelector('#user-info-dropdown');//used once
-
-mainPage.addEventListener('click', showInfo);
-profileButton.addEventListener('click', showDropdown);
-stairsTrendingButton.addEventListener('click', updateTrendingStairsDays()); // Line 400
-stepsTrendingButton.addEventListener('click', updateTrendingStepDays()); // Line 405
-//Combine these four into a single click listener
-
-launchDomSequence(); // Where does this really wanna live? THIS is a big one. <-----------------
-
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
   cardToShow.classList.remove('hide');
 }
 
 function showDropdown() {
+  let userInfoDropdown = document.querySelector('#user-info-dropdown');
   userInfoDropdown.classList.toggle('hide');
-}// 
+}
 
-function showInfo() { //click handler
+function showInfo() {
   let hydrationMainCard = document.querySelector('#hydration-main-card');
   let sleepMainCard = document.querySelector('#sleep-main-card');
   let stepsMainCard = document.querySelector('#steps-main-card');
+  let stairsMainCard = document.querySelector('#stairs-main-card');
 
   if (event.target.classList.contains("steps-info-button")) {
     let stepsInfoCard = document.querySelector("#steps-info-card");
@@ -148,8 +135,9 @@ function showInfo() { //click handler
     let stepsTrendingCard = document.querySelector("#steps-trending-card");
     flipCard(stepsMainCard, stepsTrendingCard);
   }
-  if (event.target.classList.contains('steps-calendar-button')) {
-    flipCard(stepsMainCard, stepsCalendarCard);// //
+  if (event.target.classList.contains("steps-calendar-button")) {
+    let stepsCalendarCard = document.querySelector("#steps-calendar-card");
+    flipCard(stepsMainCard, stepsCalendarCard);
   }
   if (event.target.classList.contains("hydration-info-button")) {
     let hydrationInfoCard = document.querySelector("#hydration-info-card");
@@ -164,13 +152,16 @@ function showInfo() { //click handler
     flipCard(hydrationMainCard, hydrationCalendarCard);
   }
   if (event.target.classList.contains('stairs-info-button')) {
-    flipCard(stairsMainCard, stairsInfoCard);// //
+    let stairsInfoCard = document.querySelector('#stairs-info-card');
+    flipCard(stairsMainCard, stairsInfoCard);
   }
-  if (event.target.classList.contains('stairs-friends-button')) {
-    flipCard(stairsMainCard, stairsFriendsCard);// //
+  if (event.target.classList.contains("stairs-friends-button")) {
+    let stairsFriendsCard = document.querySelector("#stairs-friends-card");
+    flipCard(stairsMainCard, stairsFriendsCard);
   }
-  if (event.target.classList.contains('stairs-trending-button')) {
-    flipCard(stairsMainCard, stairsTrendingCard); //
+  if (event.target.classList.contains("stairs-trending-button")) {
+    let stairsTrendingCard = document.querySelector("#stairs-trending-card");
+    flipCard(stairsMainCard, stairsTrendingCard);
   }
   if (event.target.classList.contains("stairs-calendar-button")) {
     let stairsCalendarCard = document.querySelector("#stairs-calendar-card");
@@ -182,27 +173,27 @@ function showInfo() { //click handler
   }
   if (event.target.classList.contains("sleep-friends-button")) {
     let sleepFriendsCard = document.querySelector("#sleep-friends-card");
-    flipCard(sleepMainCard, sleepFriendsCard); // //
+    flipCard(sleepMainCard, sleepFriendsCard);
   }
   if (event.target.classList.contains("sleep-calendar-button")) {
     let sleepCalendarCard = document.querySelector("#sleep-calendar-card");
     flipCard(sleepMainCard, sleepCalendarCard);
   }
   if (event.target.classList.contains('steps-go-back-button')) {
-    flipCard(event.target.parentNode, stepsMainCard);//
+    flipCard(event.target.parentNode, stepsMainCard);
   }
   if (event.target.classList.contains('hydration-go-back-button')) {
-    flipCard(event.target.parentNode, hydrationMainCard);//
+    flipCard(event.target.parentNode, hydrationMainCard);
   }
   if (event.target.classList.contains('stairs-go-back-button')) {
-    flipCard(event.target.parentNode, stairsMainCard);// //
+    flipCard(event.target.parentNode, stairsMainCard);
   }
   if (event.target.classList.contains('sleep-go-back-button')) {
-    flipCard(event.target.parentNode, sleepMainCard);//
+    flipCard(event.target.parentNode, sleepMainCard);
   }
 }
 
-function updateFriendsStepDisplay() { //dropdown handler
+function updateFriendsStepDisplay() { // Dropdown handler
   updateDropdown();
   createFriendsStepList();
   styleFriends();
@@ -248,7 +239,7 @@ function updateHeader() {
   headerName.innerText = `${user.getFirstName()}'S `;
 }
 
-function updateAllHydrationCards() { // hydration card handler
+function updateAllHydrationCards() { // Hydration card handler
   updateHydrationMainCard();
   updateHydrationInfoCard();
   updateHydrationFriendCard();
@@ -296,7 +287,7 @@ function updateHydrationCalendarCard() {
   } 
 }
 
-function updateAllSleepCards() { // sleep card handler
+function updateAllSleepCards() { // Sleep card handler
   updateSleepMainCard();
   updateSleepInfoCard();
   updateSleepFriendCard();
@@ -314,7 +305,7 @@ function updateSleepInfoCard() {
   let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
   let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
   let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-  sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;//should update the DOM - does not seem to appear on page, required in rubric <-- ???
+  sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage; // should update the DOM - does not seem to appear on page, required in rubric <-- ???
   sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
   sleepInfoQualityToday.innerText = sleepData.find(sleep => { // <------------------------------- Uses SLEEPDATA
     return sleep.userID === user.id && sleep.date === todayDate;
@@ -340,7 +331,7 @@ function updateSleepCalendarCard() {
   sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
 }
 
-function updateAllStepsCards() { // steps card handler
+function updateAllStepsCards() { // Steps card handler
   updateStepsMainCard();
   updateStepsInfoCard();
   updateStepsFriendCard();
@@ -395,7 +386,7 @@ function updateTrendingStepDays() { // This is being called in a click handler
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 } // may be appropriate to combine with updateTrendingStairsDays
 
-function updateAllStairsCards() { // stairs card handler
+function updateAllStairsCards() { // Stairs card handler
   updateStairsMainCard();
   updateStairsInfoCard();
   updateStairsFriendCard();
