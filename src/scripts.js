@@ -15,7 +15,7 @@ let stairsTrendingButton = document.querySelector('.stairs-trending-button');
 let stepsTrendingButton = document.querySelector('.steps-trending-button');
 let userRepository = new UserRepository();
 let user;
-let todayDate = "2019/09/22"; 
+let todayDate = "2019/09/22";
 // convert todayDate to function so today's date is dynamic, and always current.
 let hydrationData = [];
 let activityData = [];
@@ -31,7 +31,7 @@ stepsTrendingButton.addEventListener('click', updateTrendingStepDays);
 // setTimeout(() => {
 //   console.log("waiting")
 //   launchDomSequence()
-// }, 0); 
+// }, 0);
 // Where does this really wanna live? THIS is a big one. <----------------- !!!
 
 function getAllData() {
@@ -90,7 +90,7 @@ function getActivityData() {
     .then(data => storeActivityData(data))
     .catch(error => console.log(error));
 }
-  
+
 function storeActivityData(data) {
   data.activityData.forEach(activity => {
     activity = new Activity(activity, userRepository);
@@ -245,7 +245,7 @@ function updateFriendsStepDisplay() { // Dropdown handler
 }
 
 function updateDropdown() {
-  let dropdownGoal = document.querySelector('#dropdown-goal'); 
+  let dropdownGoal = document.querySelector('#dropdown-goal');
   let dropdownEmail = document.querySelector('#dropdown-email');
   let dropdownName = document.querySelector('#dropdown-name');
   dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
@@ -303,7 +303,7 @@ function updateHydrationMainCard() {// <------------------------ Now This Is The
 }
 
 function updateHydrationFriendCard() {
-  let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today'); 
+  let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today');
   hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 }
 
@@ -330,10 +330,10 @@ function updateHydrationCalendarCard() {
   let dailyOz = document.querySelectorAll(".daily-oz");
   let sortedHydrationDataByDate = sortHydration();
   for (var i = 0; i < dailyOz.length; i++) { // convert into forEach  <---------------
-    dailyOz[i].innerText = user.addDailyOunces( 
+    dailyOz[i].innerText = user.addDailyOunces(
       Object.keys(sortedHydrationDataByDate[i])[0]
     );
-  } 
+  }
 }
 
 function updateAllSleepCards() { // Sleep card handler
@@ -388,10 +388,11 @@ function updateAllStepsCards() { // Steps card handler
 }
 
 function updateStepsMainCard() {
+  debugger;
   let stepsUserStepsToday = document.querySelector("#steps-user-steps-today");
   stepsUserStepsToday.innerText = activityData.find((activity) => { // <------------------------------- Uses ACTIVITYDATA
-    return activity.userID === user.id && activity.date === todayDate;
-  }).numSteps;
+    return activity.userId === user.id && activity.date === todayDate;
+  }).steps;
 }
 
 function updateStepsInfoCard() {
@@ -400,7 +401,7 @@ function updateStepsInfoCard() {
   stepsInfoActiveMinutesToday.innerText = activityData.find(activity => { // <------------------------------- Uses ACTIVITYDATA
     return activity.userID === user.id && activity.date === todayDate;
   }).minutesActive;
-  
+
   stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
     return (activity.date === todayDate && activity.userId === user.id)
   }).calculateMiles(userRepository);
@@ -444,14 +445,14 @@ function updateAllStairsCards() { // Stairs card handler
 function updateStairsMainCard() {
   let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
   stairsUserStairsToday.innerText = activityData.find(activity => { // <------------------------------- Uses ACTIVITYDATA
-    return activity.userID === user.id && activity.date === todayDate;
+    return activity.userId === user.id && activity.date === todayDate;
   }).flightsOfStairs * 12;
 }
 
 function updateStairsInfoCard() {
   let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
   stairsInfoFlightsToday.innerText = activityData.find(activity => { // <------------------------------- Uses ACTIVITYDATA
-    return activity.userID === user.id && activity.date === todayDate;
+    return activity.userId === user.id && activity.date === todayDate;
   }).flightsOfStairs;
 }
 
