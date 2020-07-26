@@ -388,18 +388,23 @@ function updateAllStepsCards() { // Steps card handler
 }
 
 function updateStepsMainCard() {
-  debugger;
   let stepsUserStepsToday = document.querySelector("#steps-user-steps-today");
-  stepsUserStepsToday.innerText = activityData.find((activity) => { // <------------------------------- Uses ACTIVITYDATA
+  // stepsUserStepsToday.innerText =
+  let activityEntry = activityData.find((activity) => { // <------------------------------- Uses ACTIVITYDATA
     return activity.userId === user.id && activity.date === todayDate;
-  }).steps;
+  });
+  if (activityEntry === undefined) {
+    stepsUserStepsToday.innerText = 0;
+  } else {
+    stepsUserStepsToday.innerText = activityEntry.steps;
+  }
 }
 
 function updateStepsInfoCard() {
   let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
   let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
   stepsInfoActiveMinutesToday.innerText = activityData.find(activity => { // <------------------------------- Uses ACTIVITYDATA
-    return activity.userID === user.id && activity.date === todayDate;
+    return activity.userId === user.id && activity.date === todayDate;
   }).minutesActive;
 
   stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
