@@ -1,8 +1,8 @@
 import './css/styles.scss';
-import userData from './data/users';
-import activityData from './data/activity';
-import sleepData from './data/sleep';
-import hydrationData from './data/hydration';
+// import userData from './data/users';
+// import activityData from './data/activity';
+// import sleepData from './data/sleep';
+// import hydrationData from './data/hydration';
 import UserRepository from './UserRepository';
 import User from './User';
 import Activity from './Activity';
@@ -16,16 +16,22 @@ let stepsTrendingButton = document.querySelector('.steps-trending-button');
 let userRepository = new UserRepository();
 let user;
 let todayDate = "2019/09/22"; 
-// convert to function so today's date is dynamic, and always current. ⏱
+// convert todayDate to function so today's date is dynamic, and always current.
+let hydrationData = [];
+let activityData = [];
+let sleepData = [];
 
-window.onload = getAllData();
+window.onload = getUserData();
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
-stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
-stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+stairsTrendingButton.addEventListener('click', updateTrendingStairsDays);
+stepsTrendingButton.addEventListener('click', updateTrendingStepDays);
 // ⬆ Combine these four into a single click listener ⤴
 
-setTimeout(launchDomSequence(), 0); 
+// setTimeout(() => {
+//   console.log("waiting")
+//   launchDomSequence()
+// }, 0); 
 // Where does this really wanna live? THIS is a big one. <----------------- !!!
 
 function getAllData() {
@@ -39,73 +45,110 @@ function getAllData() {
 function createUser() {
   let randomIndex = Math.floor(Math.random() * 50)
   user = userRepository.users[randomIndex];
-  console.log(userRepository)
   user.findFriendsNames(userRepository.users);
 }
 
 function launchDomSequence() {
   updateFriendsStepDisplay();
-  updateAllHydrationCards();
-  updateAllSleepCards();
+  // updateAllHydrationCards();
+  // updateAllSleepCards();
+  // updateAllStepsCards();
+  // updateAllStairsCards();
+}
+
+function getUserData() {
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+    .then(response => response.json())
+    .then(data => storeUserData(data))
+    .then(() => getActivityData())
+    .then(() => getHydrationData())
+    .then(() => getSleepData())
+    .then(() => launchDomSequence())
+    .catch(error => console.log(error));
+} // working as expected
+
+function storeUserData(data) {
+  console.log('store data')
+  data.userData.forEach(user => {
+    let newUser = new User(user);
+    userRepository.users.push(newUser)
+  });
+  createUser();
+}
+
+// function storeUserData() {
+//   userData.forEach(user => {
+//     let newUser = new User(user);
+//     userRepository.users.push(newUser)
+//   });
+// }
+
+function getActivityData() {
+  console.log('get activity')
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
+    .then(response => response.json())
+    .then(data => storeActivityData(data))
+    .catch(error => console.log(error));
+}
+  
+function storeActivityData(data) {
+  data.activityData.forEach(activity => {
+    activity = new Activity(activity, userRepository);
+    activityData.push(activity);
+  });
   updateAllStepsCards();
   updateAllStairsCards();
 }
 
-// function getUserData() {
-//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
-//     .then(response => response.json())
-//     .then(data => storeUserData(data))
-//     .then(() => getActivityData())
-//     .then(() => getHydrationData())
-//     .then(() => getSleepData())
-//     .catch(error => console.log(error));
-// } // working as expected
-
-function storeUserData() {
-  userData.forEach(user => {
-    let newUser = new User(user);
-    userRepository.users.push(newUser)
-  });
-}
-
-// function getActivityData() {
-//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
-//     .then(response => response.json())
-//     .then(data => storeActivityData(data))
-//     .catch(error => console.log(error));
-// }
-  
-function storeActivityData() { // Need to change when fetching
-  activityData.forEach(activity => {
-    activity = new Activity(activity, userRepository);
-  });
-}
-
-// function getHydrationData() {
-//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
-//     .then(response => response.json())
-//     .then(data => storeHydrationData(data))
-//     .catch(error => console.log(error));
+// function storeActivityData() {
+//   activityData.forEach(activity => {
+//     activity = new Activity(activity, userRepository);
+//   });
 // }
 
-function storeHydrationData() {
-  hydrationData.forEach(hydration => {
+function getHydrationData() {
+  console.log("get hydration");
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
+    .then(response => response.json())
+    .then(data => storeHydrationData(data))
+    .catch(error => console.log(error));
+}
+
+function storeHydrationData(data) {
+  data.hydrationData.forEach(hydration => {
     hydration = new Hydration(hydration, userRepository);
+    hydrationData.push(hydration);
   });
+  updateAllHydrationCards();
 }
 
-// function getSleepData() {
-//   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
-//     .then(response => response.json())
-//     .then(data => storeSleepData(data))
-//     .catch(error => console.log(error))
+// function storeHydrationData() {
+//   hydrationData.forEach(hydration => {
+//     hydration = new Hydration(hydration, userRepository);
+//   });
 // }
 
-function storeSleepData() {
-  sleepData.forEach(sleep => {
-    sleep = new Sleep(sleep, userRepository);
-  });
+function getSleepData() {
+  console.log("get sleep");
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
+    .then(response => response.json())
+    .then(data => storeSleepData(data))
+    .catch(error => console.log(error))
 }
+
+function storeSleepData(data) {
+  data.sleepData.forEach(sleep => {
+    sleep = new Sleep(sleep, userRepository);
+    sleepData.push(sleep);
+  });
+  updateAllSleepCards();
+}
+
+// function storeSleepData() {
+//   sleepData.forEach(sleep => {
+//     sleep = new Sleep(sleep, userRepository);
+//   });
+// }
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
@@ -194,6 +237,7 @@ function showInfo() {
 }
 
 function updateFriendsStepDisplay() { // Dropdown handler
+  console.log('step friends display')
   updateDropdown();
   createFriendsStepList();
   styleFriends();
@@ -246,11 +290,16 @@ function updateAllHydrationCards() { // Hydration card handler
   updateHydrationCalendarCard();
 }
 
-function updateHydrationMainCard() {
+function updateHydrationMainCard() {// <------------------------ Now This Is The model for how to solve the following problems.
   let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
-  hydrationUserOuncesToday.innerText = hydrationData.find(hydration => { // <------------------------------- Uses HYDRATIONDATA
-    return hydration.userID === user.id && hydration.date === todayDate;
-  }).numOunces;
+  let hydrationEntry = hydrationData.find(hydration => { // <------------------------------- Create a variable
+    return hydration.userId === user.id && hydration.date === todayDate; // <--------------- Use lowercase 'd' in 'Id'
+  });
+  if (hydrationEntry === undefined) {
+    hydrationUserOuncesToday.innerText = 0;
+  } else {
+    hydrationUserOuncesToday.innerText = hydrationEntry.ounces; // <------------------------ use 'ounces' instead of 'numOunces'
+  }
 }
 
 function updateHydrationFriendCard() {
@@ -261,8 +310,8 @@ function updateHydrationFriendCard() {
 function updateHydrationInfoCard() {
   let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
   hydrationInfoGlassesToday.innerText = (hydrationData.find(hydration => { // <------------------------------- Uses HYDRATIONDATA
-    return hydration.userID === user.id && hydration.date === todayDate;
-  }).numOunces / 8).toFixed(1); // do you want to make it so this only happens if the # isn't divisible by 1?
+    return hydration.userId === user.id && hydration.date === todayDate;
+  }).ounces / 8).toFixed(1);
 }
 
 function sortHydration() {
@@ -281,7 +330,7 @@ function updateHydrationCalendarCard() {
   let dailyOz = document.querySelectorAll(".daily-oz");
   let sortedHydrationDataByDate = sortHydration();
   for (var i = 0; i < dailyOz.length; i++) { // convert into forEach  <---------------
-    dailyOz[i].innerText = user.addDailyOunces(
+    dailyOz[i].innerText = user.addDailyOunces( 
       Object.keys(sortedHydrationDataByDate[i])[0]
     );
   } 
@@ -336,7 +385,6 @@ function updateAllStepsCards() { // Steps card handler
   updateStepsInfoCard();
   updateStepsFriendCard();
   updateStepsCalendarCard();
-  // updateStepsTrendingCard(); // This is being called in a click handler
 }
 
 function updateStepsMainCard() {
@@ -391,7 +439,6 @@ function updateAllStairsCards() { // Stairs card handler
   updateStairsInfoCard();
   updateStairsFriendCard();
   updateStairsCalendarCard();
-  // updateStairsTrendingCard(); // // This is being called in a click handler
 }
 
 function updateStairsMainCard() {
