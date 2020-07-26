@@ -154,16 +154,6 @@ stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 //Combine these four into a single click listener
 
-let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
-  if (Object.keys(a)[0] > Object.keys(b)[0]) {
-    return -1;
-  }
-  if (Object.keys(a)[0] < Object.keys(b)[0]) {
-    return 1;
-  }
-  return 0;
-});
-
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
   cardToShow.classList.remove('hide');
@@ -230,118 +220,202 @@ function showInfo() { //click handler
   }
 }
 
-function updateTrendingStairsDays() {
-  user.findTrendingStairsDays();
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-}//may be appropriate to combine with updateTrendingStepDays
+function updateFriendsStepDisplay() { //dropdown handler
+  updateDropdown();
+  createFriendsStepList();
+  styleFriends();
+}
 
-function updateTrendingStepDays() {
+function updateDropdown() {
+  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;//
+  dropdownEmail.innerText = `EMAIL | ${user.email}`;//
+  dropdownName.innerText = user.name.toUpperCase();//
+}
+
+function createFriendsStepList() {
+  user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
+  
+  user.friendsActivityRecords.forEach(friend => {
+    dropdownFriendsStepsContainer.innerHTML += `
+    <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+    `;
+  });
+  //Put this in a function, locally scope query selector
+}
+
+function styleFriends() {
+  let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
+  //Should this be with globally scoped query selectors?
+  friendsStepsParagraphs.forEach(paragraph => {
+    if (friendsStepsParagraphs[0] === paragraph) {
+      paragraph.classList.add('green-text');
+    }
+    if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
+      paragraph.classList.add('red-text');
+    }
+    if (paragraph.innerText.includes('YOU')) {
+      paragraph.classList.add('yellow-text');
+    }
+  });
+}
+
+function updateHeader() {
+  headerName.innerText = `${user.getFirstName()}'S `; //Put these above four into a loader function, and locally scope query selectors
+}
+
+function updateAllHydrationCards() { // hydration card handler
+  updateHydrationMainCard();
+  updateHydrationInfoCard();
+  updateHydrationFriendCard();
+  updateHydrationCalendarCard();
+}
+
+function updateHydrationMainCard() {
+  hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
+    return hydration.userID === user.id && hydration.date === todayDate;
+  }).numOunces;//Put in function, updates DOM - refactor with hydrationInfoGlassesToday.innerText?
+}
+
+function updateHydrationFriendCard() {
+  hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);//updates DOM -- Put into function, locally scope query selector
+}
+
+function updateHydrationInfoCard() {
+  hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
+    return hydration.userID === user.id && hydration.date === todayDate;
+  }).numOunces / 8;//Put in function, locally scope query selector
+}
+
+function sortHydration() {
+  return user.ouncesRecord.sort((a, b) => {
+    if (Object.keys(a)[0] > Object.keys(b)[0]) {
+      return -1;
+    }
+    if (Object.keys(a)[0] < Object.keys(b)[0]) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
+function updateHydrationCalendarCard() {
+  let sortedHydrationDataByDate = sortHydration();
+  for (var i = 0; i < dailyOz.length; i++) {
+    dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
+  } //Put this in a function, convert into forEach, locally scope query selector
+}
+
+function updateAllSleepCards() { // sleep card handler
+  updateSleepMainCard();
+  updateSleepInfoCard();
+  updateSleepFriendCard();
+  updateSleepCalendarCard();
+}
+
+function updateSleepMainCard() {
+  sleepUserHoursToday.innerText = sleepData.find(sleep => {
+    return sleep.userID === user.id && sleep.date === todayDate;
+  }).hoursSlept;//place in function - updates DOM
+}
+
+function updateSleepInfoCard() {
+  sleepInfoQualityToday.innerText = sleepData.find(sleep => {
+    return sleep.userID === user.id && sleep.date === todayDate;
+  }).sleepQuality;//place in function - update DOM for last night sleep quality
+  sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;//should update the DOM - does not seem to appear on page, required in rubric
+  sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;//place into function - updates DOM (overall number of hours average on page)
+}
+
+function updateSleepFriendCard() {
+  sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
+    return user.id === userRepository.getLongestSleepers(todayDate)
+  }).getFirstName();//put in function - updates DOM -- seems to function properly - poorly named
+  
+  sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
+    return user.id === userRepository.getWorstSleepers(todayDate)
+  }).getFirstName();//put in function - updates DOM - seems to function properly
+}
+
+function updateSleepCalendarCard() {
+  sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);//updates DOM - seems to function properly -put in function, locally scope?
+  sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);// updates DOM - seems to function properly - put in function, locally scope?
+}
+
+function updateAllStepsCards() { // steps card handler
+  updateStepsMainCard();
+  updateStepsInfoCard();
+  updateStepsFriendCard();
+  updateStepsCalendarCard();
+  updateStepsTrendingCard();
+}
+
+function updateStepsMainCard() {
+  stepsUserStepsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).numSteps;// update DOM for daily user steps - functioning
+}
+
+function updateStepsInfoCard() {
+  stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).minutesActive;// place in funtion - updates DOM - functional
+  
+  stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
+    return (activity.date === todayDate && activity.userId === user.id)
+  }).calculateMiles(userRepository); //place in function - updates DOM - fuctional
+  
+}
+
+function updateStepsFriendCard() {
+  stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate); //place in function - updates DOM - appears to function
+  
+  stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);//place in function - updates DOM appears in  user icon flip
+  
+  stepsFriendAverageStepGoal.innerText = userRepository.calculateAverageStepGoal();//place in function - updates DOM - appears in user icon flip
+}
+
+function updateStepsCalendarCard() {
+  stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);//place in function - updates DOM
+
+  stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate); //place in function - updates DOM
+}
+
+function updateStepsTrendingCard() {
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 } //this function is the good one (replicated elsewhere) may be combined with updateTrendingStairsDays later on
 
-for (var i = 0; i < dailyOz.length; i++) {
-  dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
-} //Put this in a function, convert into forEach, locally scope query selector
+function updateAllStairsCards() { // stairs card handler
+  updateStairsMainCard();
+  updateStairsInfoCard();
+  updateStairsFriendCard();
+  updateStairsCalendarCard();
+  updateStairsTrendingCard();
+}
 
-dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;//
+function updateStairsMainCard() {
+  stairsUserStairsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).flightsOfStairs * 12;// place in function - updated DOM - seems to work
+}
 
-dropdownEmail.innerText = `EMAIL | ${user.email}`;//
+function updateStairsInfoCard() {
+  stairsInfoFlightsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).flightsOfStairs;// put in function - daily flight count - updates DOM - might need API
+}
 
-dropdownName.innerText = user.name.toUpperCase();//
+function updateStairsFriendCard() {
+  stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);// place in function -- updates DOM, functioning -- all users
+}
 
-headerName.innerText = `${user.getFirstName()}'S `; //Put these above four into a loader function, and locally scope query selectors
+function updateStairsCalendarCard() {
+  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);//place in function - updates the DOM - working
 
-hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces;//Put in function, updates DOM - refactor with hydrationInfoGlassesToday.innerText?
+  stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);//place into function - updates DOM
+}
 
-hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);//updates DOM -- Put into function, locally scope query selector
-
-hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces / 8;//Put in function, locally scope query selector
-
-sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);//updates DOM - seems to function properly -put in function, locally scope?
-
-sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);// updates DOM - seems to function properly - put in function, locally scope?
-
-sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getLongestSleepers(todayDate)
-}).getFirstName();//put in function - updates DOM -- seems to function properly - poorly named
-
-sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getWorstSleepers(todayDate)
-}).getFirstName();//put in function - updates DOM - seems to function properly
-
-sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;//place into function - updates DOM (overall number of hours average on page)
-
-stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
-  return (activity.date === todayDate && activity.userId === user.id)
-}).calculateMiles(userRepository); //place in function - updates DOM - fuctional
-
-sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;//should update the DOM - does not seem to appear on page, required in rubric
-
-sleepInfoQualityToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).sleepQuality;//place in function - update DOM for last night sleep quality
-
-sleepUserHoursToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).hoursSlept;//place in function - updates DOM
-
-stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);//place in function - updates the DOM - working
-
-stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);//place into function - updates DOM
-
-stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);// place in function -- updates DOM, functioning -- all users
-
-stairsInfoFlightsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).flightsOfStairs;// put in function - daily flight count - updates DOM - might need API
-
-stairsUserStairsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).flightsOfStairs * 12;// place in function - updated DOM - seems to work
-
-stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);//place in function - updates DOM
-
-stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate); //place in function - updates DOM
-
-stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate); //place in function - updates DOM - appears to function
-
-stepsFriendAverageStepGoal.innerText = userRepository.calculateAverageStepGoal();//place in function - updates DOM - appears in user icon flip
-
-stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);//place in function - updates DOM appears in  user icon flip
-
-stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).minutesActive;// place in funtion - updates DOM - functional
-
-stepsUserStepsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).numSteps;// update DOM for daily user steps - functioning
-
-user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
-
-user.friendsActivityRecords.forEach(friend => {
-  dropdownFriendsStepsContainer.innerHTML += `
-  <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
-  `;
-});
-//Put this in a function, locally scope query selector
-
-let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-//Should this be with globally scoped query selectors?
-
-friendsStepsParagraphs.forEach(paragraph => {
-  if (friendsStepsParagraphs[0] === paragraph) {
-    paragraph.classList.add('green-text');
-  }
-  if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
-    paragraph.classList.add('red-text');
-  }
-  if (paragraph.innerText.includes('YOU')) {
-    paragraph.classList.add('yellow-text');
-  }
-});
+function updateStairsTrendingCard() {
+  user.findTrendingStairsDays();
+  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
+}//may be appropriate to combine with updateTrendingStepDays
