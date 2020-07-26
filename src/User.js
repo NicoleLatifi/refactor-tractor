@@ -51,7 +51,7 @@
       'date': date,
       'quality': quality
     });
-    if(this.sleepHoursRecord.length) {
+    if (this.sleepHoursRecord.length) {
       this.hoursSleptAverage = ((hours + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
     } else {
       this.hoursSleptAverage = hours;
