@@ -15,7 +15,6 @@ import Sleep from './Sleep';
 let userRepository = new UserRepository();
 let user;
 let todayDate = "2019/09/22";
-// let randomIndex = Math.floor(Math.random)
 // launchDomSequence();
 // let = userRepository.users[0]; //Now THIS is our problem.
 // user.findFriendsNames(userRepository.users);
@@ -32,7 +31,8 @@ function getAllData() {
   storeActivityData();
   storeHydrationData();
   storeSleepData();
-  user = userRepository.users[0];
+  let randomIndex = Math.floor(Math.random() * 50)
+  user = userRepository.users[randomIndex];
   console.log(userRepository)
   user.findFriendsNames(userRepository.users);
 }
