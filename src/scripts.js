@@ -63,7 +63,7 @@ function getUserData() {
     .then(() => getActivityData())
     .then(() => getHydrationData())
     .then(() => getSleepData())
-    .then(() => launchDomSequence())
+    // .then(() => launchDomSequence())
     .catch(error => console.log(error));
 } // working as expected
 
@@ -74,6 +74,7 @@ function storeUserData(data) {
     userRepository.users.push(newUser)
   });
   createUser();
+  updateFriendsStepDisplay();
 }
 
 // function storeUserData() {
@@ -237,7 +238,7 @@ function showInfo() {
 }
 
 function updateFriendsStepDisplay() { // Dropdown handler
-  console.log('step friends display')
+  debugger
   updateDropdown();
   createFriendsStepList();
   styleFriends();
@@ -362,15 +363,15 @@ function updateSleepInfoCard() {
   let sleepInfoEntry = sleepData.find(sleep => {
     return sleep.userId === user.id && sleep.date === todayDate;
   });
-  if (sleepInfoEntry === undefined) {
-    sleepInfoQualityToday.innerText = 0;
-    sleepInfoQualityAverageAlltime.innerText = 0;
-    sleepInfoHoursAverageAlltime.innerText = 0;
-  } else {
-    sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality;
-    sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
-    sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-  }
+   if (sleepInfoEntry === undefined) {
+     sleepInfoQualityToday.innerText = 0;
+     sleepInfoQualityAverageAlltime.innerText = 0;
+     sleepInfoHoursAverageAlltime.innerText = 0;
+   } else {
+    sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality || 0;  //might need to remove pipes
+    sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage || 0; //might need to remove pipes
+    sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage || 0; //might need to remove pipes
+   }
 }
 
 function updateSleepFriendCard() {
