@@ -13,8 +13,12 @@ import Sleep from './Sleep';
 
 
 let userRepository = new UserRepository();
-let user = userRepository.users[0]; //Now THIS is our problem.
-user.findFriendsNames(userRepository.users);
+let user;
+let todayDate = "2019/09/22";
+// let randomIndex = Math.floor(Math.random)
+// launchDomSequence();
+// let = userRepository.users[0]; //Now THIS is our problem.
+// user.findFriendsNames(userRepository.users);
 // As we refactor, keep in mind that when we implement fetch, 
 // we will need to make sure that things aren't dependent on 
 // the promise being resolved before the rest of this script 
@@ -23,18 +27,22 @@ user.findFriendsNames(userRepository.users);
 window.onload = getAllData();
 
 function getAllData() {
+  // todayDate = "2019/09/22";
   storeUserData();
   storeActivityData();
   storeHydrationData();
   storeSleepData();
-  launchDomSequence();
+  user = userRepository.users[0];
+  console.log(userRepository)
+  user.findFriendsNames(userRepository.users);
 }
 
 function launchDomSequence() {
   updateFriendsStepDisplay();
   updateAllHydrationCards();
   updateAllSleepCards();
-
+  updateAllStepsCards();
+  updateAllStairsCards();
 }
 
 // function getUserData() {
@@ -98,7 +106,7 @@ function storeSleepData() {
 //   });
 
 
-let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current. ⏱
+// let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current. ⏱
 
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container'); //used only once
 let hydrationCalendarCard = document.querySelector('#hydration-calendar-card'); //used only once
@@ -147,11 +155,11 @@ let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');//us
 let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');//used once
 let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');//used once
 let userInfoDropdown = document.querySelector('#user-info-dropdown');//used once
-
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
-stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
-stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+stairsTrendingButton.addEventListener('click', updateTrendingStairsDays()); // Where are these functions?  <----------
+stepsTrendingButton.addEventListener('click', updateTrendingStepDays()); // Wherrreee arreee youuooo?  <---------
+launchDomSequence();
 //Combine these four into a single click listener
 
 function flipCard(cardToHide, cardToShow) {
@@ -354,7 +362,7 @@ function updateAllStepsCards() { // steps card handler
   updateStepsInfoCard();
   updateStepsFriendCard();
   updateStepsCalendarCard();
-  updateStepsTrendingCard();
+  // updateStepsTrendingCard(); // This is being called in a click handler
 }
 
 function updateStepsMainCard() {
@@ -388,7 +396,12 @@ function updateStepsCalendarCard() {
   stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate); //place in function - updates DOM
 }
 
-function updateStepsTrendingCard() {
+function updateTrendingStairsDays() { // This is being called in a click handler
+  user.findTrendingStairsDays();
+  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
+}//may be appropriate to combine with updateTrendingStepDays
+
+function updateTrendingStepDays() { // This is being called in a click handler
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 } //this function is the good one (replicated elsewhere) may be combined with updateTrendingStairsDays later on
@@ -398,7 +411,7 @@ function updateAllStairsCards() { // stairs card handler
   updateStairsInfoCard();
   updateStairsFriendCard();
   updateStairsCalendarCard();
-  updateStairsTrendingCard();
+  // updateStairsTrendingCard(); // // This is being called in a click handler
 }
 
 function updateStairsMainCard() {
