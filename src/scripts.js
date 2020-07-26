@@ -13,6 +13,8 @@ import Sleep from './Sleep';
 
 
 let userRepository = new UserRepository();
+let user = userRepository.users[0]; //Now THIS is our problem.
+user.findFriendsNames(userRepository.users);
 // As we refactor, keep in mind that when we implement fetch, 
 // we will need to make sure that things aren't dependent on 
 // the promise being resolved before the rest of this script 
@@ -25,6 +27,14 @@ function getAllData() {
   storeActivityData();
   storeHydrationData();
   storeSleepData();
+  launchDomSequence();
+}
+
+function launchDomSequence() {
+  updateFriendsStepDisplay();
+  updateAllHydrationCards();
+  updateAllSleepCards();
+
 }
 
 // function getUserData() {
@@ -87,24 +97,14 @@ function storeSleepData() {
 //     sleep = new Sleep(sleep, userRepository);
 //   });
 
-let user = userRepository.users[0]; //Now THIS is our problem. 
-user.findFriendsNames(userRepository.users);
 
-let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current. 
+let todayDate = "2019/09/22"; // convert to function so today's date is dynamic, and always current. ⏱
 
-let dailyOz = document.querySelectorAll('.daily-oz'); //used only once
-let dropdownEmail = document.querySelector('#dropdown-email'); //used only once
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container'); //used only once
-let dropdownGoal = document.querySelector('#dropdown-goal'); //used only once
-let dropdownName = document.querySelector('#dropdown-name'); //used only once
-let headerName = document.querySelector('#header-name'); //used only once
 let hydrationCalendarCard = document.querySelector('#hydration-calendar-card'); //used only once
-let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today'); //used only once
 let hydrationFriendsCard = document.querySelector('#hydration-friends-card'); //used only once
 let hydrationInfoCard = document.querySelector('#hydration-info-card'); //used only once
-let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today'); //used only once
 let hydrationMainCard = document.querySelector('#hydration-main-card'); //used several times in showInfo()
-let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today'); //used only once
 let mainPage = document.querySelector('main'); //event listener
 let profileButton = document.querySelector('#profile-button'); //event listener
 let sleepCalendarCard = document.querySelector('#sleep-calendar-card');//used only once (click handler)
@@ -224,28 +224,29 @@ function updateFriendsStepDisplay() { //dropdown handler
   updateDropdown();
   createFriendsStepList();
   styleFriends();
+  updateHeader();
 }
 
 function updateDropdown() {
-  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;//
-  dropdownEmail.innerText = `EMAIL | ${user.email}`;//
-  dropdownName.innerText = user.name.toUpperCase();//
+  let dropdownGoal = document.querySelector('#dropdown-goal'); 
+  let dropdownEmail = document.querySelector('#dropdown-email');
+  let dropdownName = document.querySelector('#dropdown-name');
+  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+  dropdownEmail.innerText = `EMAIL | ${user.email}`;
+  dropdownName.innerText = user.name.toUpperCase();
 }
 
 function createFriendsStepList() {
   user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
-  
   user.friendsActivityRecords.forEach(friend => {
     dropdownFriendsStepsContainer.innerHTML += `
     <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
     `;
   });
-  //Put this in a function, locally scope query selector
 }
 
 function styleFriends() {
   let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-  //Should this be with globally scoped query selectors?
   friendsStepsParagraphs.forEach(paragraph => {
     if (friendsStepsParagraphs[0] === paragraph) {
       paragraph.classList.add('green-text');
@@ -260,7 +261,8 @@ function styleFriends() {
 }
 
 function updateHeader() {
-  headerName.innerText = `${user.getFirstName()}'S `; //Put these above four into a loader function, and locally scope query selectors
+  let headerName = document.querySelector("#header-name");
+  headerName.innerText = `${user.getFirstName()}'S `;
 }
 
 function updateAllHydrationCards() { // hydration card handler
@@ -271,19 +273,22 @@ function updateAllHydrationCards() { // hydration card handler
 }
 
 function updateHydrationMainCard() {
+  let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
   hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
     return hydration.userID === user.id && hydration.date === todayDate;
-  }).numOunces;//Put in function, updates DOM - refactor with hydrationInfoGlassesToday.innerText?
+  }).numOunces;
 }
 
 function updateHydrationFriendCard() {
-  hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);//updates DOM -- Put into function, locally scope query selector
+  let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today'); 
+  hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 }
 
 function updateHydrationInfoCard() {
+  let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
   hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
     return hydration.userID === user.id && hydration.date === todayDate;
-  }).numOunces / 8;//Put in function, locally scope query selector
+  }).numOunces / 8;
 }
 
 function sortHydration() {
@@ -299,10 +304,13 @@ function sortHydration() {
 }
 
 function updateHydrationCalendarCard() {
+  let dailyOz = document.querySelectorAll(".daily-oz");
   let sortedHydrationDataByDate = sortHydration();
-  for (var i = 0; i < dailyOz.length; i++) {
-    dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
-  } //Put this in a function, convert into forEach, locally scope query selector
+  for (var i = 0; i < dailyOz.length; i++) { // convert into forEach  <---------------
+    dailyOz[i].innerText = user.addDailyOunces(
+      Object.keys(sortedHydrationDataByDate[i])[0]
+    );
+  } 
 }
 
 function updateAllSleepCards() { // sleep card handler
