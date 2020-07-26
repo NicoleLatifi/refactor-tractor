@@ -307,9 +307,9 @@ function updateHydrationFriendCard() {
   hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 }
 
-function updateHydrationInfoCard() {
+function updateHydrationInfoCard() { // <--------------------------------------------------- Changes have been implemented here 👍🏼
   let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
-  hydrationInfoGlassesToday.innerText = (hydrationData.find(hydration => { // <------------------------------- Uses HYDRATIONDATA
+  hydrationInfoGlassesToday.innerText = (hydrationData.find(hydration => {
     return hydration.userId === user.id && hydration.date === todayDate;
   }).ounces / 8).toFixed(1);
 }
