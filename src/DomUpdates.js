@@ -152,6 +152,13 @@ class DomUpdates {
     let stairsFriendFlightsAverageToday = document.querySelector('#stairs-friend-flights-average-today');
     stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
   }
+
+  updateStairsCalendarCard(user, todayDate) {
+    let stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
+    let stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
+    stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
+    stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+  }
 }
 
 export default DomUpdates;

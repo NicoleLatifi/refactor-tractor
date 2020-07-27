@@ -280,15 +280,5 @@ function updateAllStairsCards() {
   domUpdates.updateStairsMainCard(activityData, user, todayDate);
   domUpdates.updateStairsInfoCard(activityData, user, todayDate);
   domUpdates.updateStairsFriendCard(userRepository, todayDate);
-  updateStairsCalendarCard();
-}
-
-
-
-
-function updateStairsCalendarCard() {
-  let stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
-  let stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
-  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
-  stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+  domUpdates.updateStairsCalendarCard(user, todayDate);
 }
