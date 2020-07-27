@@ -153,14 +153,14 @@
 
   findTrendingStairsDays() {
     let positiveDays = [];
-    for (var i = 0; i < this.activityRecord.length; i++) {
-      if (this.activityRecord[i + 1] && this.activityRecord[i].flightsOfStairs > this.activityRecord[i + 1].flightsOfStairs) {
-        positiveDays.unshift(this.activityRecord[i].date);
+    this.activityRecord.forEach((activity, i) => {
+      if (this.activityRecord[i + 1] && activity.flightsOfStairs > this.activityRecord[i + 1].flightsOfStairs) {
+        positiveDays.unshift(activity.date);
       } else if (positiveDays.length > 2) {
         this.trendingStairsDays.push(`Your most recent positive climbing streak was ${positiveDays[0]} - ${positiveDays[positiveDays.length - 1]}!`);
         positiveDays = [];
       }
-    }
+    })
   }
 
   findFriendsNames(users) {
