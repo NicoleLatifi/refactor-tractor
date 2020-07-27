@@ -186,32 +186,8 @@ function showInfo() {
 function updateFriendsStepDisplay() {
   domUpdates.updateDropdown(user);
   domUpdates.createFriendsStepList(userRepository, user, todayDate);
-  styleFriends();
-  updateHeader();
-}
-
-
-
-
-
-function styleFriends() {
-  let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-  friendsStepsParagraphs.forEach(paragraph => {
-    if (friendsStepsParagraphs[0] === paragraph) {
-      paragraph.classList.add('green-text');
-    }
-    if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
-      paragraph.classList.add('red-text');
-    }
-    if (paragraph.innerText.includes('YOU')) {
-      paragraph.classList.add('yellow-text');
-    }
-  });
-}
-
-function updateHeader() {
-  let headerName = document.querySelector("#header-name");
-  headerName.innerText = `${user.getFirstName()}'S `;
+  domUpdates.styleFriends();
+  domUpdates.updateHeader(user);
 }
 
 function updateAllHydrationCards() {

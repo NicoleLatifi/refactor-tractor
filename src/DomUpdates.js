@@ -22,6 +22,26 @@ class DomUpdates {
     });
   }
 
+  styleFriends() {
+    let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
+    friendsStepsParagraphs.forEach(paragraph => {
+      if (friendsStepsParagraphs[0] === paragraph) {
+        paragraph.classList.add('green-text');
+      }
+      if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
+        paragraph.classList.add('red-text');
+      }
+      if (paragraph.innerText.includes('YOU')) {
+        paragraph.classList.add('yellow-text');
+      }
+    });
+  }
+
+  updateHeader(user) {
+    let headerName = document.querySelector("#header-name");
+    headerName.innerText = `${user.getFirstName()}'S `;
+  }
+
   updateHydrationMainCard(hydrationData, user, todayDate) {
     let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
     let hydrationEntry = hydrationData.find(hydration => {
