@@ -47,6 +47,24 @@ class DomUpdates {
       sleepUserHoursToday.innerText = sleepHoursEntry.hoursSlept;
     }
   }
+
+  updateSleepInfoCard(sleepData, user, todayDate) {
+    let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
+    let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
+    let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
+    let sleepInfoEntry = sleepData.find(sleep => {
+      return sleep.userId === user.id && sleep.date === todayDate;
+    });
+    // if (sleepInfoEntry === undefined) {
+    //   sleepInfoQualityToday.innerText = 0;
+    //   sleepInfoQualityAverageAlltime.innerText = 0;
+    //   sleepInfoHoursAverageAlltime.innerText = 0;
+    // } else {
+      sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality || 0; // Let's make sure this is working the way we want it to, otherwise let's remove these pipes.
+      sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage || 0; 
+      sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage || 0; 
+    // }
+  }
 }
 
 export default DomUpdates;
