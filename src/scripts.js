@@ -4,6 +4,7 @@ import User from './User';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
+import DomUpdates from './DomUpdates';
 
 let mainPage = document.querySelector('main');
 let profileButton = document.querySelector('#profile-button');
@@ -16,6 +17,7 @@ let todayDate = "2019/09/22";
 let hydrationData = [];
 let activityData = [];
 let sleepData = [];
+let domUpdates = new DomUpdates()
 
 window.onload = getUserData();
 mainPage.addEventListener('click', showInfo);
@@ -228,23 +230,13 @@ function updateHeader() {
 }
 
 function updateAllHydrationCards() {
-  updateHydrationMainCard();
+  domUpdates.updateHydrationMainCard(hydrationData, user, todayDate);
   updateHydrationInfoCard();
   updateHydrationFriendCard();
   updateHydrationCalendarCard();
 }
 
-function updateHydrationMainCard() {
-  let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
-  let hydrationEntry = hydrationData.find(hydration => {
-    return hydration.userId === user.id && hydration.date === todayDate;
-  });
-  if (hydrationEntry === undefined) {
-    hydrationUserOuncesToday.innerText = 0;
-  } else {
-    hydrationUserOuncesToday.innerText = hydrationEntry.ounces;
-  }
-}
+
 
 function updateHydrationFriendCard() {
   let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today');
