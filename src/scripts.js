@@ -279,16 +279,12 @@ function updateTrendingStepDays() {
 function updateAllStairsCards() {
   domUpdates.updateStairsMainCard(activityData, user, todayDate);
   domUpdates.updateStairsInfoCard(activityData, user, todayDate);
-  updateStairsFriendCard();
+  domUpdates.updateStairsFriendCard(userRepository, todayDate);
   updateStairsCalendarCard();
 }
 
 
 
-function updateStairsFriendCard() {
-  let stairsFriendFlightsAverageToday = document.querySelector('#stairs-friend-flights-average-today');
-  stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
-}
 
 function updateStairsCalendarCard() {
   let stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');

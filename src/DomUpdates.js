@@ -147,6 +147,11 @@ class DomUpdates {
       return activity.userId === user.id && activity.date === todayDate;
     }).flightsOfStairs;
   }
+
+  updateStairsFriendCard(userRepository, todayDate) {
+    let stairsFriendFlightsAverageToday = document.querySelector('#stairs-friend-flights-average-today');
+    stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
+  }
 }
 
 export default DomUpdates;
