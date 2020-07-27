@@ -4,6 +4,7 @@ import User from './User';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
+import DomUpdates from './DomUpdates';
 
 let mainPage = document.querySelector('main');
 let profileButton = document.querySelector('#profile-button');
@@ -16,6 +17,7 @@ let todayDate = "2019/09/22";
 let hydrationData = [];
 let activityData = [];
 let sleepData = [];
+let domUpdates = new DomUpdates(hydrationData, sleepData, activityData);
 
 window.onload = getUserData();
 mainPage.addEventListener('click', showInfo);
@@ -182,80 +184,19 @@ function showInfo() {
 }
 
 function updateFriendsStepDisplay() {
-  updateDropdown();
-  createFriendsStepList();
-  styleFriends();
-  updateHeader();
-}
-
-function updateDropdown() {
-  let dropdownGoal = document.querySelector('#dropdown-goal');
-  let dropdownEmail = document.querySelector('#dropdown-email');
-  let dropdownName = document.querySelector('#dropdown-name');
-  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
-  dropdownEmail.innerText = `EMAIL | ${user.email}`;
-  dropdownName.innerText = user.name.toUpperCase();
-}
-
-function createFriendsStepList() { // <--------- The problem was HERE (It was all working, we just needed to set a delay)
-  let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
-  user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
-  user.friendsActivityRecords.forEach(friend => {
-    dropdownFriendsStepsContainer.innerHTML += `
-    <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
-    `;
-  });
-}
-
-function styleFriends() {
-  let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-  friendsStepsParagraphs.forEach(paragraph => {
-    if (friendsStepsParagraphs[0] === paragraph) {
-      paragraph.classList.add('green-text');
-    }
-    if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
-      paragraph.classList.add('red-text');
-    }
-    if (paragraph.innerText.includes('YOU')) {
-      paragraph.classList.add('yellow-text');
-    }
-  });
-}
-
-function updateHeader() {
-  let headerName = document.querySelector("#header-name");
-  headerName.innerText = `${user.getFirstName()}'S `;
+  domUpdates.updateDropdown(user);
+  domUpdates.createFriendsStepList(userRepository, user, todayDate);
+  domUpdates.styleFriends();
+  domUpdates.updateHeader(user);
 }
 
 function updateAllHydrationCards() {
-  updateHydrationMainCard();
-  updateHydrationInfoCard();
-  updateHydrationFriendCard();
-  updateHydrationCalendarCard();
-}
-
-function updateHydrationMainCard() {
-  let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
-  let hydrationEntry = hydrationData.find(hydration => {
-    return hydration.userId === user.id && hydration.date === todayDate;
-  });
-  if (hydrationEntry === undefined) {
-    hydrationUserOuncesToday.innerText = 0;
-  } else {
-    hydrationUserOuncesToday.innerText = hydrationEntry.ounces;
-  }
-}
-
-function updateHydrationFriendCard() {
-  let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today');
-  hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
-}
-
-function updateHydrationInfoCard() {
-  let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
-  hydrationInfoGlassesToday.innerText = (hydrationData.find(hydration => {
-    return hydration.userId === user.id && hydration.date === todayDate;
-  }).ounces / 8).toFixed(1);
+  let sortedHydrationDataByDate = sortHydration(); // ~~~This used to live in updateHydrationCalendarCard() but I moved it here because that function is now in DomUpdates.js
+  domUpdates.updateHydrationMainCard(user, todayDate);
+  domUpdates.updateHydrationInfoCard(user, todayDate)
+  domUpdates.updateHydrationFriendCard
+  (userRepository.calculateAverageDailyWater(todayDate));
+  domUpdates.updateHydrationCalendarCard(user, sortedHydrationDataByDate);
 }
 
 function sortHydration() {
@@ -270,126 +211,18 @@ function sortHydration() {
   });
 }
 
-function updateHydrationCalendarCard() {
-  let dailyOz = document.querySelectorAll(".daily-oz");
-  let sortedHydrationDataByDate = sortHydration();
-  for (var i = 0; i < dailyOz.length; i++) { // convert into forEach  <--------------- Hey!
-    dailyOz[i].innerText = user.addDailyOunces(
-      Object.keys(sortedHydrationDataByDate[i])[0]
-    );
-  }
-}
-
 function updateAllSleepCards() {
-  updateSleepMainCard();
-  updateSleepInfoCard();
-  updateSleepFriendCard();
-  updateSleepCalendarCard();
-}
-
-function updateSleepMainCard() {
-  let sleepUserHoursToday = document.querySelector("#sleep-user-hours-today");
-  let sleepHoursEntry = sleepData.find((sleep) => {
-    return sleep.userId === user.id && sleep.date === todayDate;
-  });
-  if (sleepHoursEntry === undefined) {
-    sleepUserHoursToday.innerText = 0;
-  } else {
-    sleepUserHoursToday.innerText = sleepHoursEntry.hoursSlept;
-  }
-}
-
-function updateSleepInfoCard() {
-  let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
-  let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
-  let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-  let sleepInfoEntry = sleepData.find(sleep => {
-    return sleep.userId === user.id && sleep.date === todayDate;
-  });
-  // if (sleepInfoEntry === undefined) {
-  //   sleepInfoQualityToday.innerText = 0;
-  //   sleepInfoQualityAverageAlltime.innerText = 0;
-  //   sleepInfoHoursAverageAlltime.innerText = 0;
-  // } else {
-    sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality || 0; // Let's make sure this is working the way we want it to, otherwise let's remove these pipes.
-    sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage || 0; 
-    sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage || 0; 
-  // }
-}
-
-function updateSleepFriendCard() {
-  let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
-  let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');
-  sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
-    return user.id === userRepository.getLongestSleepers(todayDate)
-  }).getFirstName();
-
-  sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
-    return user.id === userRepository.getWorstSleepers(todayDate)
-  }).getFirstName();
-}
-
-function updateSleepCalendarCard() {
-  let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
-  let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
-  sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
-  sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
+  domUpdates.updateSleepMainCard(user, todayDate);
+  domUpdates.updateSleepInfoCard(user, todayDate);
+  domUpdates.updateSleepFriendCard(userRepository, todayDate);
+  domUpdates.updateSleepCalendarCard(user, todayDate);
 }
 
 function updateAllStepsCards() {
-  updateStepsMainCard();
-  updateStepsInfoCard();
-  updateStepsFriendCard();
-  updateStepsCalendarCard();
-}
-
-function updateStepsMainCard() {
-  let stepsUserStepsToday = document.querySelector("#steps-user-steps-today");
-  let activityEntry = activityData.find((activity) => { 
-    return activity.userId === user.id && activity.date === todayDate;
-  });
-  if (activityEntry === undefined) {
-    stepsUserStepsToday.innerText = 0;
-  } else {
-    stepsUserStepsToday.innerText = activityEntry.numSteps;
-  }
-}
-
-function updateStepsInfoCard() { // Maybe split this into two helperz
-  let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
-  let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-  let activityEntry = activityData.find(activity => {
-    return activity.userId === user.id && activity.date === todayDate;
-  });
-  if (activityEntry === undefined) {
-    stepsInfoActiveMinutesToday.innerText = 0;
-  } else {
-    stepsInfoActiveMinutesToday.innerText = activityEntry.minutesActive;
-  }
-  let milesActivityEntry = user.activityRecord.find(activity => {
-    return (activity.date === todayDate && activity.userId === user.id);
-  });
-  if (milesActivityEntry === undefined) {
-    stepsInfoMilesWalkedToday.innerText = 0;
-  } else {
-    stepsInfoMilesWalkedToday.innerText = milesActivityEntry.calculateMiles(userRepository);
-  }
-}
-
-function updateStepsFriendCard() {
-  let stepsFriendActiveMinutesAverageToday = document.querySelector('#steps-friend-active-minutes-average-today');
-  let stepsFriendStepsAverageToday = document.querySelector('#steps-friend-steps-average-today');
-  let stepsFriendAverageStepGoal = document.querySelector('#steps-friend-average-step-goal');
-  stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
-  stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
-  stepsFriendAverageStepGoal.innerText = userRepository.calculateAverageStepGoal();
-}
-
-function updateStepsCalendarCard() {
-  let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
-  let stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
-  stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
-  stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
+  domUpdates.updateStepsMainCard(user, todayDate);
+  domUpdates.updateStepsInfoCard(user, todayDate, userRepository);
+  domUpdates.updateStepsFriendCard(userRepository, todayDate);
+  domUpdates.updateStepsCalendarCard(user, todayDate);
 }
 
 function updateTrendingStairsDays() {
@@ -405,34 +238,8 @@ function updateTrendingStepDays() {
 }
 
 function updateAllStairsCards() {
-  updateStairsMainCard();
-  updateStairsInfoCard();
-  updateStairsFriendCard();
-  updateStairsCalendarCard();
-}
-
-function updateStairsMainCard() {
-  let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
-  stairsUserStairsToday.innerText = activityData.find(activity => {
-    return activity.userId === user.id && activity.date === todayDate;
-  }).flightsOfStairs * 12;
-}
-
-function updateStairsInfoCard() {
-  let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
-  stairsInfoFlightsToday.innerText = activityData.find(activity => {
-    return activity.userId === user.id && activity.date === todayDate;
-  }).flightsOfStairs;
-}
-
-function updateStairsFriendCard() {
-  let stairsFriendFlightsAverageToday = document.querySelector('#stairs-friend-flights-average-today');
-  stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
-}
-
-function updateStairsCalendarCard() {
-  let stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
-  let stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
-  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
-  stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+  domUpdates.updateStairsMainCard(user, todayDate);
+  domUpdates.updateStairsInfoCard(user, todayDate);
+  domUpdates.updateStairsFriendCard(userRepository, todayDate);
+  domUpdates.updateStairsCalendarCard(user, todayDate);
 }
