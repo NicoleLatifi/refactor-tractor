@@ -1,8 +1,4 @@
 import './css/styles.scss';
-// import userData from './data/users';
-// import activityData from './data/activity';
-// import sleepData from './data/sleep';
-// import hydrationData from './data/hydration';
 import UserRepository from './UserRepository';
 import User from './User';
 import Activity from './Activity';
@@ -28,32 +24,10 @@ stairsTrendingButton.addEventListener('click', updateTrendingStairsDays);
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays);
 // ⬆ Combine these four into a single click listener ⤴
 
-// setTimeout(() => {
-//   console.log("waiting")
-//   launchDomSequence()
-// }, 0);
-// Where does this really wanna live? THIS is a big one. <----------------- !!!
-
-function getAllData() {
-  storeUserData();
-  storeActivityData();
-  storeHydrationData();
-  storeSleepData();
-  createUser();
-}
-
 function createUser() {
   let randomIndex = Math.floor(Math.random() * 50)
   user = userRepository.users[randomIndex];
   user.findFriendsNames(userRepository.users);
-}
-
-function launchDomSequence() {
-  updateFriendsStepDisplay();
-  // updateAllHydrationCards();
-  // updateAllSleepCards();
-  // updateAllStepsCards();
-  // updateAllStairsCards();
 }
 
 function getUserData() {
@@ -63,29 +37,19 @@ function getUserData() {
     .then(() => getActivityData())
     .then(() => getHydrationData())
     .then(() => getSleepData())
-    // .then(() => launchDomSequence())
     .catch(error => console.log(error));
-} // working as expected
+}
 
 function storeUserData(data) {
-  console.log('store data')
   data.userData.forEach(user => {
     let newUser = new User(user);
     userRepository.users.push(newUser)
   });
   createUser();
-  updateFriendsStepDisplay();
+  setTimeout(() => updateFriendsStepDisplay(), 600); // <---------------------This was the fix
 }
 
-// function storeUserData() {
-//   userData.forEach(user => {
-//     let newUser = new User(user);
-//     userRepository.users.push(newUser)
-//   });
-// }
-
 function getActivityData() {
-  console.log('get activity')
   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
     .then(response => response.json())
     .then(data => storeActivityData(data))
@@ -101,14 +65,7 @@ function storeActivityData(data) {
   updateAllStairsCards();
 }
 
-// function storeActivityData() {
-//   activityData.forEach(activity => {
-//     activity = new Activity(activity, userRepository);
-//   });
-// }
-
 function getHydrationData() {
-  console.log("get hydration");
   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
     .then(response => response.json())
     .then(data => storeHydrationData(data))
@@ -123,14 +80,7 @@ function storeHydrationData(data) {
   updateAllHydrationCards();
 }
 
-// function storeHydrationData() {
-//   hydrationData.forEach(hydration => {
-//     hydration = new Hydration(hydration, userRepository);
-//   });
-// }
-
 function getSleepData() {
-  console.log("get sleep");
   fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
     .then(response => response.json())
     .then(data => storeSleepData(data))
@@ -144,12 +94,6 @@ function storeSleepData(data) {
   });
   updateAllSleepCards();
 }
-
-// function storeSleepData() {
-//   sleepData.forEach(sleep => {
-//     sleep = new Sleep(sleep, userRepository);
-//   });
-// }
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
@@ -237,8 +181,7 @@ function showInfo() {
   }
 }
 
-function updateFriendsStepDisplay() { // Dropdown handler
-  debugger
+function updateFriendsStepDisplay() {
   updateDropdown();
   createFriendsStepList();
   styleFriends();
@@ -254,7 +197,7 @@ function updateDropdown() {
   dropdownName.innerText = user.name.toUpperCase();
 }
 
-function createFriendsStepList() {
+function createFriendsStepList() { // <--------- The problem was HERE (It was all working, we just needed to set a delay)
   let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
   user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
   user.friendsActivityRecords.forEach(friend => {
@@ -284,22 +227,22 @@ function updateHeader() {
   headerName.innerText = `${user.getFirstName()}'S `;
 }
 
-function updateAllHydrationCards() { // Hydration card handler
+function updateAllHydrationCards() {
   updateHydrationMainCard();
   updateHydrationInfoCard();
   updateHydrationFriendCard();
   updateHydrationCalendarCard();
 }
 
-function updateHydrationMainCard() {// <------------------------ Now This Is The model for how to solve the following problems.
+function updateHydrationMainCard() {
   let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
-  let hydrationEntry = hydrationData.find(hydration => { // <------------------------------- Create a variable
-    return hydration.userId === user.id && hydration.date === todayDate; // <--------------- Use lowercase 'd' in 'Id'
+  let hydrationEntry = hydrationData.find(hydration => {
+    return hydration.userId === user.id && hydration.date === todayDate;
   });
   if (hydrationEntry === undefined) {
     hydrationUserOuncesToday.innerText = 0;
   } else {
-    hydrationUserOuncesToday.innerText = hydrationEntry.ounces; // <------------------------ use 'ounces' instead of 'numOunces'
+    hydrationUserOuncesToday.innerText = hydrationEntry.ounces;
   }
 }
 
@@ -308,7 +251,7 @@ function updateHydrationFriendCard() {
   hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 }
 
-function updateHydrationInfoCard() { // <--------------------------------------------------- Changes have been implemented here 👍🏼
+function updateHydrationInfoCard() {
   let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
   hydrationInfoGlassesToday.innerText = (hydrationData.find(hydration => {
     return hydration.userId === user.id && hydration.date === todayDate;
@@ -330,14 +273,14 @@ function sortHydration() {
 function updateHydrationCalendarCard() {
   let dailyOz = document.querySelectorAll(".daily-oz");
   let sortedHydrationDataByDate = sortHydration();
-  for (var i = 0; i < dailyOz.length; i++) { // convert into forEach  <---------------
+  for (var i = 0; i < dailyOz.length; i++) { // convert into forEach  <--------------- Hey!
     dailyOz[i].innerText = user.addDailyOunces(
       Object.keys(sortedHydrationDataByDate[i])[0]
     );
   }
 }
 
-function updateAllSleepCards() { // Sleep card handler
+function updateAllSleepCards() {
   updateSleepMainCard();
   updateSleepInfoCard();
   updateSleepFriendCard();
@@ -363,15 +306,15 @@ function updateSleepInfoCard() {
   let sleepInfoEntry = sleepData.find(sleep => {
     return sleep.userId === user.id && sleep.date === todayDate;
   });
-   if (sleepInfoEntry === undefined) {
-     sleepInfoQualityToday.innerText = 0;
-     sleepInfoQualityAverageAlltime.innerText = 0;
-     sleepInfoHoursAverageAlltime.innerText = 0;
-   } else {
-    sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality || 0;  //might need to remove pipes
-    sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage || 0; //might need to remove pipes
-    sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage || 0; //might need to remove pipes
-   }
+  // if (sleepInfoEntry === undefined) {
+  //   sleepInfoQualityToday.innerText = 0;
+  //   sleepInfoQualityAverageAlltime.innerText = 0;
+  //   sleepInfoHoursAverageAlltime.innerText = 0;
+  // } else {
+    sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality || 0; // Let's make sure this is working the way we want it to, otherwise let's remove these pipes.
+    sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage || 0; 
+    sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage || 0; 
+  // }
 }
 
 function updateSleepFriendCard() {
@@ -393,7 +336,7 @@ function updateSleepCalendarCard() {
   sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
 }
 
-function updateAllStepsCards() { // Steps card handler
+function updateAllStepsCards() {
   updateStepsMainCard();
   updateStepsInfoCard();
   updateStepsFriendCard();
@@ -402,21 +345,20 @@ function updateAllStepsCards() { // Steps card handler
 
 function updateStepsMainCard() {
   let stepsUserStepsToday = document.querySelector("#steps-user-steps-today");
-  // stepsUserStepsToday.innerText =
-  let activityEntry = activityData.find((activity) => { // <------------------------------- Uses ACTIVITYDATA
+  let activityEntry = activityData.find((activity) => { 
     return activity.userId === user.id && activity.date === todayDate;
   });
   if (activityEntry === undefined) {
     stepsUserStepsToday.innerText = 0;
   } else {
-    stepsUserStepsToday.innerText = activityEntry.steps;
+    stepsUserStepsToday.innerText = activityEntry.numSteps;
   }
 }
 
-function updateStepsInfoCard() {
+function updateStepsInfoCard() { // Maybe split this into two helperz
   let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
   let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-  let activityEntry = activityData.find(activity => { // <------------------------------- Uses ACTIVITYDATA
+  let activityEntry = activityData.find(activity => {
     return activity.userId === user.id && activity.date === todayDate;
   });
   if (activityEntry === undefined) {
@@ -450,19 +392,19 @@ function updateStepsCalendarCard() {
   stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
 }
 
-function updateTrendingStairsDays() { // This is being called in a click handler
+function updateTrendingStairsDays() {
   let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-}//may be appropriate to combine with updateTrendingStepDays
+}
 
-function updateTrendingStepDays() { // This is being called in a click handler
+function updateTrendingStepDays() {
   let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
-} // may be appropriate to combine with updateTrendingStairsDays
+}
 
-function updateAllStairsCards() { // Stairs card handler
+function updateAllStairsCards() {
   updateStairsMainCard();
   updateStairsInfoCard();
   updateStairsFriendCard();
@@ -471,14 +413,14 @@ function updateAllStairsCards() { // Stairs card handler
 
 function updateStairsMainCard() {
   let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
-  stairsUserStairsToday.innerText = activityData.find(activity => { // <------------------------------- Uses ACTIVITYDATA
+  stairsUserStairsToday.innerText = activityData.find(activity => {
     return activity.userId === user.id && activity.date === todayDate;
   }).flightsOfStairs * 12;
 }
 
 function updateStairsInfoCard() {
   let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
-  stairsInfoFlightsToday.innerText = activityData.find(activity => { // <------------------------------- Uses ACTIVITYDATA
+  stairsInfoFlightsToday.innerText = activityData.find(activity => {
     return activity.userId === user.id && activity.date === todayDate;
   }).flightsOfStairs;
 }
@@ -494,8 +436,3 @@ function updateStairsCalendarCard() {
   stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
   stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 }
-
-// function updateStairsTrendingCard() {
-//   user.findTrendingStairsDays();
-//   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-// }//may be appropriate to combine with updateTrendingStepDays
