@@ -35,6 +35,18 @@ class DomUpdates {
       );
     }
   }
+
+  updateSleepMainCard(sleepData, user, todayDate) {
+    let sleepUserHoursToday = document.querySelector("#sleep-user-hours-today");
+    let sleepHoursEntry = sleepData.find((sleep) => {
+      return sleep.userId === user.id && sleep.date === todayDate;
+    });
+    if (sleepHoursEntry === undefined) {
+      sleepUserHoursToday.innerText = 0;
+    } else {
+      sleepUserHoursToday.innerText = sleepHoursEntry.hoursSlept;
+    }
+  }
 }
 
 export default DomUpdates;

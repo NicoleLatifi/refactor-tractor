@@ -251,22 +251,10 @@ function sortHydration() {
 }
 
 function updateAllSleepCards() {
-  updateSleepMainCard();
+  domUpdates.updateSleepMainCard(sleepData, user, todayDate);
   updateSleepInfoCard();
   updateSleepFriendCard();
   updateSleepCalendarCard();
-}
-
-function updateSleepMainCard() {
-  let sleepUserHoursToday = document.querySelector("#sleep-user-hours-today");
-  let sleepHoursEntry = sleepData.find((sleep) => {
-    return sleep.userId === user.id && sleep.date === todayDate;
-  });
-  if (sleepHoursEntry === undefined) {
-    sleepUserHoursToday.innerText = 0;
-  } else {
-    sleepUserHoursToday.innerText = sleepHoursEntry.hoursSlept;
-  }
 }
 
 function updateSleepInfoCard() {
