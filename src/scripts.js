@@ -264,7 +264,6 @@ function updateAllStepsCards() {
   domUpdates.updateStepsCalendarCard(user, todayDate);
 }
 
-
 function updateTrendingStairsDays() {
   let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
   user.findTrendingStairsDays();
@@ -278,17 +277,10 @@ function updateTrendingStepDays() {
 }
 
 function updateAllStairsCards() {
-  updateStairsMainCard();
+  domUpdates.updateStairsMainCard(activityData, user, todayDate);
   updateStairsInfoCard();
   updateStairsFriendCard();
   updateStairsCalendarCard();
-}
-
-function updateStairsMainCard() {
-  let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
-  stairsUserStairsToday.innerText = activityData.find(activity => {
-    return activity.userId === user.id && activity.date === todayDate;
-  }).flightsOfStairs * 12;
 }
 
 function updateStairsInfoCard() {

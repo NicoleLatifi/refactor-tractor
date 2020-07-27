@@ -133,6 +133,13 @@ class DomUpdates {
     stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
     stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
   }
+
+  updateStairsMainCard(activityData, user, todayDate) {
+    let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
+    stairsUserStairsToday.innerText = activityData.find(activity => {
+      return activity.userId === user.id && activity.date === todayDate;
+    }).flightsOfStairs * 12;
+  }
 }
 
 export default DomUpdates;
