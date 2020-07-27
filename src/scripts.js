@@ -184,30 +184,15 @@ function showInfo() {
 }
 
 function updateFriendsStepDisplay() {
-  updateDropdown();
-  createFriendsStepList();
+  domUpdates.updateDropdown(user);
+  domUpdates.createFriendsStepList(userRepository, user, todayDate);
   styleFriends();
   updateHeader();
 }
 
-function updateDropdown() {
-  let dropdownGoal = document.querySelector('#dropdown-goal');
-  let dropdownEmail = document.querySelector('#dropdown-email');
-  let dropdownName = document.querySelector('#dropdown-name');
-  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
-  dropdownEmail.innerText = `EMAIL | ${user.email}`;
-  dropdownName.innerText = user.name.toUpperCase();
-}
 
-function createFriendsStepList() { // <--------- The problem was HERE (It was all working, we just needed to set a delay)
-  let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
-  user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
-  user.friendsActivityRecords.forEach(friend => {
-    dropdownFriendsStepsContainer.innerHTML += `
-    <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
-    `;
-  });
-}
+
+
 
 function styleFriends() {
   let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');

@@ -3,6 +3,25 @@ class DomUpdates {
 
   }
 
+  updateDropdown(user) {
+    let dropdownGoal = document.querySelector('#dropdown-goal');
+    let dropdownEmail = document.querySelector('#dropdown-email');
+    let dropdownName = document.querySelector('#dropdown-name');
+    dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+    dropdownEmail.innerText = `EMAIL | ${user.email}`;
+    dropdownName.innerText = user.name.toUpperCase();
+  }
+
+  createFriendsStepList(userRepository, user, todayDate) { // <--------- The problem was HERE (It was all working, we just needed to set a delay)
+    let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
+    user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
+    user.friendsActivityRecords.forEach(friend => {
+      dropdownFriendsStepsContainer.innerHTML += `
+      <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+      `;
+    });
+  }
+
   updateHydrationMainCard(hydrationData, user, todayDate) {
     let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
     let hydrationEntry = hydrationData.find(hydration => {
