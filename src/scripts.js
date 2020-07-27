@@ -253,22 +253,11 @@ function sortHydration() {
 function updateAllSleepCards() {
   domUpdates.updateSleepMainCard(sleepData, user, todayDate);
   domUpdates.updateSleepInfoCard(sleepData, user, todayDate);
-  updateSleepFriendCard();
+  domUpdates.updateSleepFriendCard(userRepository, todayDate);
   updateSleepCalendarCard();
 }
 
 
-function updateSleepFriendCard() {
-  let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
-  let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');
-  sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
-    return user.id === userRepository.getLongestSleepers(todayDate)
-  }).getFirstName();
-
-  sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
-    return user.id === userRepository.getWorstSleepers(todayDate)
-  }).getFirstName();
-}
 
 function updateSleepCalendarCard() {
   let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');

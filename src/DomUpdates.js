@@ -65,6 +65,19 @@ class DomUpdates {
       sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage || 0; 
     // }
   }
+
+  updateSleepFriendCard(userRepository, todayDate) {
+    let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
+    let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');
+    sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
+      return user.id === userRepository.getLongestSleepers(todayDate)
+    }).getFirstName();
+  
+    sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
+      return user.id === userRepository.getWorstSleepers(todayDate)
+    }).getFirstName();
+  }
+
 }
 
 export default DomUpdates;
