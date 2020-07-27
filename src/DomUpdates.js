@@ -126,6 +126,13 @@ class DomUpdates {
     stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
     stepsFriendAverageStepGoal.innerText = userRepository.calculateAverageStepGoal();
   }
+
+  updateStepsCalendarCard(user, todayDate) {
+    let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
+    let stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
+    stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
+    stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
+  }
 }
 
 export default DomUpdates;

@@ -261,16 +261,9 @@ function updateAllStepsCards() {
   domUpdates.updateStepsMainCard(activityData, user, todayDate);
   domUpdates.updateStepsInfoCard(activityData, user, todayDate, userRepository);
   domUpdates.updateStepsFriendCard(userRepository, todayDate);
-  updateStepsCalendarCard();
+  domUpdates.updateStepsCalendarCard(user, todayDate);
 }
 
-
-function updateStepsCalendarCard() {
-  let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
-  let stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
-  stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
-  stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
-}
 
 function updateTrendingStairsDays() {
   let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
