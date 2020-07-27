@@ -278,17 +278,12 @@ function updateTrendingStepDays() {
 
 function updateAllStairsCards() {
   domUpdates.updateStairsMainCard(activityData, user, todayDate);
-  updateStairsInfoCard();
+  domUpdates.updateStairsInfoCard(activityData, user, todayDate);
   updateStairsFriendCard();
   updateStairsCalendarCard();
 }
 
-function updateStairsInfoCard() {
-  let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
-  stairsInfoFlightsToday.innerText = activityData.find(activity => {
-    return activity.userId === user.id && activity.date === todayDate;
-  }).flightsOfStairs;
-}
+
 
 function updateStairsFriendCard() {
   let stairsFriendFlightsAverageToday = document.querySelector('#stairs-friend-flights-average-today');

@@ -140,6 +140,13 @@ class DomUpdates {
       return activity.userId === user.id && activity.date === todayDate;
     }).flightsOfStairs * 12;
   }
+
+  updateStairsInfoCard(activityData, user, todayDate) {
+    let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
+    stairsInfoFlightsToday.innerText = activityData.find(activity => {
+      return activity.userId === user.id && activity.date === todayDate;
+    }).flightsOfStairs;
+  }
 }
 
 export default DomUpdates;
