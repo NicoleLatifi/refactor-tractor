@@ -17,7 +17,7 @@ let todayDate = "2019/09/22";
 let hydrationData = [];
 let activityData = [];
 let sleepData = [];
-let domUpdates = new DomUpdates()
+let domUpdates = new DomUpdates();
 
 window.onload = getUserData();
 mainPage.addEventListener('click', showInfo);
@@ -230,14 +230,13 @@ function updateHeader() {
 }
 
 function updateAllHydrationCards() {
+  let sortedHydrationDataByDate = sortHydration(); // ~~~This used to live in updateHydrationCalendarCard() but I moved it here because that function is now in DomUpdates.js
   domUpdates.updateHydrationMainCard(hydrationData, user, todayDate);
   domUpdates.updateHydrationInfoCard(hydrationData, user, todayDate)
   domUpdates.updateHydrationFriendCard
   (userRepository.calculateAverageDailyWater(todayDate));
-  updateHydrationCalendarCard();
+  domUpdates.updateHydrationCalendarCard(user, sortedHydrationDataByDate);
 }
-
-
 
 function sortHydration() {
   return user.ouncesRecord.sort((a, b) => {
@@ -249,16 +248,6 @@ function sortHydration() {
     }
     return 0;
   });
-}
-
-function updateHydrationCalendarCard() {
-  let dailyOz = document.querySelectorAll(".daily-oz");
-  let sortedHydrationDataByDate = sortHydration();
-  for (var i = 0; i < dailyOz.length; i++) { // convert into forEach  <--------------- Hey!
-    dailyOz[i].innerText = user.addDailyOunces(
-      Object.keys(sortedHydrationDataByDate[i])[0]
-    );
-  }
 }
 
 function updateAllSleepCards() {

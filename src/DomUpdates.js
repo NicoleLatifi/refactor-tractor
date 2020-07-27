@@ -27,6 +27,14 @@ class DomUpdates {
     hydrationFriendOuncesToday.innerText = averageOunces;
   }
 
+  updateHydrationCalendarCard(user, sortedHydrationDataByDate) {
+    let dailyOz = document.querySelectorAll(".daily-oz");
+    for (var i = 0; i < dailyOz.length; i++) { // convert into forEach  <--------------- Hey!
+      dailyOz[i].innerText = user.addDailyOunces(
+        Object.keys(sortedHydrationDataByDate[i])[0]
+      );
+    }
+  }
 }
 
 export default DomUpdates;
