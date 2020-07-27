@@ -17,7 +17,7 @@ let todayDate = "2019/09/22";
 let hydrationData = [];
 let activityData = [];
 let sleepData = [];
-let domUpdates = new DomUpdates();
+let domUpdates = new DomUpdates(hydrationData, sleepData, activityData);
 
 window.onload = getUserData();
 mainPage.addEventListener('click', showInfo);
@@ -192,8 +192,8 @@ function updateFriendsStepDisplay() {
 
 function updateAllHydrationCards() {
   let sortedHydrationDataByDate = sortHydration(); // ~~~This used to live in updateHydrationCalendarCard() but I moved it here because that function is now in DomUpdates.js
-  domUpdates.updateHydrationMainCard(hydrationData, user, todayDate);
-  domUpdates.updateHydrationInfoCard(hydrationData, user, todayDate)
+  domUpdates.updateHydrationMainCard(user, todayDate);
+  domUpdates.updateHydrationInfoCard(user, todayDate)
   domUpdates.updateHydrationFriendCard
   (userRepository.calculateAverageDailyWater(todayDate));
   domUpdates.updateHydrationCalendarCard(user, sortedHydrationDataByDate);
@@ -212,15 +212,15 @@ function sortHydration() {
 }
 
 function updateAllSleepCards() {
-  domUpdates.updateSleepMainCard(sleepData, user, todayDate);
-  domUpdates.updateSleepInfoCard(sleepData, user, todayDate);
+  domUpdates.updateSleepMainCard(user, todayDate);
+  domUpdates.updateSleepInfoCard(user, todayDate);
   domUpdates.updateSleepFriendCard(userRepository, todayDate);
   domUpdates.updateSleepCalendarCard(user, todayDate);
 }
 
 function updateAllStepsCards() {
-  domUpdates.updateStepsMainCard(activityData, user, todayDate);
-  domUpdates.updateStepsInfoCard(activityData, user, todayDate, userRepository);
+  domUpdates.updateStepsMainCard(user, todayDate);
+  domUpdates.updateStepsInfoCard(user, todayDate, userRepository);
   domUpdates.updateStepsFriendCard(userRepository, todayDate);
   domUpdates.updateStepsCalendarCard(user, todayDate);
 }
@@ -238,8 +238,8 @@ function updateTrendingStepDays() {
 }
 
 function updateAllStairsCards() {
-  domUpdates.updateStairsMainCard(activityData, user, todayDate);
-  domUpdates.updateStairsInfoCard(activityData, user, todayDate);
+  domUpdates.updateStairsMainCard(user, todayDate);
+  domUpdates.updateStairsInfoCard(user, todayDate);
   domUpdates.updateStairsFriendCard(userRepository, todayDate);
   domUpdates.updateStairsCalendarCard(user, todayDate);
 }

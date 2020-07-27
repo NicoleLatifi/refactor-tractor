@@ -1,6 +1,8 @@
 class DomUpdates {
-  constructor() {
-
+  constructor(hydrationData, sleepData, activityData) {
+    this.hydrationData = hydrationData;
+    this.sleepData = sleepData;
+    this.activityData = activityData
   }
 
   updateDropdown(user) {
@@ -42,9 +44,9 @@ class DomUpdates {
     headerName.innerText = `${user.getFirstName()}'S `;
   }
 
-  updateHydrationMainCard(hydrationData, user, todayDate) {
+  updateHydrationMainCard(user, todayDate) {
     let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
-    let hydrationEntry = hydrationData.find(hydration => {
+    let hydrationEntry = this.hydrationData.find(hydration => {
       return hydration.userId === user.id && hydration.date === todayDate;
     });
     if (hydrationEntry === undefined) {
@@ -54,9 +56,9 @@ class DomUpdates {
     }
   }
 
-  updateHydrationInfoCard(hydrationData, user, todayDate) {
+  updateHydrationInfoCard(user, todayDate) {
     let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
-    hydrationInfoGlassesToday.innerText = (hydrationData.find(hydration => {
+    hydrationInfoGlassesToday.innerText = (this.hydrationData.find(hydration => {
       return hydration.userId === user.id && hydration.date === todayDate;
     }).ounces / 8).toFixed(1);
   }
@@ -75,9 +77,9 @@ class DomUpdates {
     }
   }
 
-  updateSleepMainCard(sleepData, user, todayDate) {
+  updateSleepMainCard(user, todayDate) {
     let sleepUserHoursToday = document.querySelector("#sleep-user-hours-today");
-    let sleepHoursEntry = sleepData.find((sleep) => {
+    let sleepHoursEntry = this.sleepData.find((sleep) => {
       return sleep.userId === user.id && sleep.date === todayDate;
     });
     if (sleepHoursEntry === undefined) {
@@ -87,11 +89,11 @@ class DomUpdates {
     }
   }
 
-  updateSleepInfoCard(sleepData, user, todayDate) {
+  updateSleepInfoCard(user, todayDate) {
     let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
     let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
     let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-    let sleepInfoEntry = sleepData.find(sleep => {
+    let sleepInfoEntry = this.sleepData.find(sleep => {
       return sleep.userId === user.id && sleep.date === todayDate;
     });
     // if (sleepInfoEntry === undefined) {
@@ -124,9 +126,9 @@ class DomUpdates {
     sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
   }
 
-  updateStepsMainCard(activityData, user, todayDate) {
+  updateStepsMainCard(user, todayDate) {
     let stepsUserStepsToday = document.querySelector("#steps-user-steps-today");
-    let activityEntry = activityData.find((activity) => { 
+    let activityEntry = this.activityData.find((activity) => { 
       return activity.userId === user.id && activity.date === todayDate;
     });
     if (activityEntry === undefined) {
@@ -136,10 +138,10 @@ class DomUpdates {
     }
   }
 
-  updateStepsInfoCard(activityData, user, todayDate, userRepository) { // Maybe split this into two helperz
+  updateStepsInfoCard(user, todayDate, userRepository) { // Maybe split this into two helperz
     let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
     let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-    let activityEntry = activityData.find(activity => {
+    let activityEntry = this.activityData.find(activity => {
       return activity.userId === user.id && activity.date === todayDate;
     });
     if (activityEntry === undefined) {
@@ -173,16 +175,16 @@ class DomUpdates {
     stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
   }
 
-  updateStairsMainCard(activityData, user, todayDate) {
+  updateStairsMainCard(user, todayDate) {
     let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
-    stairsUserStairsToday.innerText = activityData.find(activity => {
+    stairsUserStairsToday.innerText = this.activityData.find(activity => {
       return activity.userId === user.id && activity.date === todayDate;
     }).flightsOfStairs * 12;
   }
 
-  updateStairsInfoCard(activityData, user, todayDate) {
+  updateStairsInfoCard(user, todayDate) {
     let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
-    stairsInfoFlightsToday.innerText = activityData.find(activity => {
+    stairsInfoFlightsToday.innerText = this.activityData.find(activity => {
       return activity.userId === user.id && activity.date === todayDate;
     }).flightsOfStairs;
   }
