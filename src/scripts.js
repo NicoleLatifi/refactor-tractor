@@ -257,48 +257,13 @@ function updateAllSleepCards() {
   domUpdates.updateSleepCalendarCard(user, todayDate);
 }
 
-
-
-
 function updateAllStepsCards() {
-  updateStepsMainCard();
-  updateStepsInfoCard();
+  domUpdates.updateStepsMainCard(activityData, user, todayDate);
+  domUpdates.updateStepsInfoCard(activityData, user, todayDate, userRepository);
   updateStepsFriendCard();
   updateStepsCalendarCard();
 }
 
-function updateStepsMainCard() {
-  let stepsUserStepsToday = document.querySelector("#steps-user-steps-today");
-  let activityEntry = activityData.find((activity) => { 
-    return activity.userId === user.id && activity.date === todayDate;
-  });
-  if (activityEntry === undefined) {
-    stepsUserStepsToday.innerText = 0;
-  } else {
-    stepsUserStepsToday.innerText = activityEntry.numSteps;
-  }
-}
-
-function updateStepsInfoCard() { // Maybe split this into two helperz
-  let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
-  let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-  let activityEntry = activityData.find(activity => {
-    return activity.userId === user.id && activity.date === todayDate;
-  });
-  if (activityEntry === undefined) {
-    stepsInfoActiveMinutesToday.innerText = 0;
-  } else {
-    stepsInfoActiveMinutesToday.innerText = activityEntry.minutesActive;
-  }
-  let milesActivityEntry = user.activityRecord.find(activity => {
-    return (activity.date === todayDate && activity.userId === user.id);
-  });
-  if (milesActivityEntry === undefined) {
-    stepsInfoMilesWalkedToday.innerText = 0;
-  } else {
-    stepsInfoMilesWalkedToday.innerText = milesActivityEntry.calculateMiles(userRepository);
-  }
-}
 
 function updateStepsFriendCard() {
   let stepsFriendActiveMinutesAverageToday = document.querySelector('#steps-friend-active-minutes-average-today');
