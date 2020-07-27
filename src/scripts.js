@@ -260,19 +260,10 @@ function updateAllSleepCards() {
 function updateAllStepsCards() {
   domUpdates.updateStepsMainCard(activityData, user, todayDate);
   domUpdates.updateStepsInfoCard(activityData, user, todayDate, userRepository);
-  updateStepsFriendCard();
+  domUpdates.updateStepsFriendCard(userRepository, todayDate);
   updateStepsCalendarCard();
 }
 
-
-function updateStepsFriendCard() {
-  let stepsFriendActiveMinutesAverageToday = document.querySelector('#steps-friend-active-minutes-average-today');
-  let stepsFriendStepsAverageToday = document.querySelector('#steps-friend-steps-average-today');
-  let stepsFriendAverageStepGoal = document.querySelector('#steps-friend-average-step-goal');
-  stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
-  stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
-  stepsFriendAverageStepGoal.innerText = userRepository.calculateAverageStepGoal();
-}
 
 function updateStepsCalendarCard() {
   let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');

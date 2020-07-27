@@ -118,6 +118,14 @@ class DomUpdates {
     }
   }
 
+  updateStepsFriendCard(userRepository, todayDate) {
+    let stepsFriendActiveMinutesAverageToday = document.querySelector('#steps-friend-active-minutes-average-today');
+    let stepsFriendStepsAverageToday = document.querySelector('#steps-friend-steps-average-today');
+    let stepsFriendAverageStepGoal = document.querySelector('#steps-friend-average-step-goal');
+    stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
+    stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
+    stepsFriendAverageStepGoal.innerText = userRepository.calculateAverageStepGoal();
+  }
 }
 
 export default DomUpdates;
