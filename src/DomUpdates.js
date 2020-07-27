@@ -78,6 +78,13 @@ class DomUpdates {
     }).getFirstName();
   }
 
+  updateSleepCalendarCard(user, todayDate) {
+    let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
+    let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
+    sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
+    sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
+  }
+
 }
 
 export default DomUpdates;
