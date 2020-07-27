@@ -15,6 +15,13 @@ class DomUpdates {
     }
   }
 
+  updateHydrationInfoCard(hydrationData, user, todayDate) {
+    let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
+    hydrationInfoGlassesToday.innerText = (hydrationData.find(hydration => {
+      return hydration.userId === user.id && hydration.date === todayDate;
+    }).ounces / 8).toFixed(1);
+  }
+
   updateHydrationFriendCard(averageOunces) {
     let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today');
     hydrationFriendOuncesToday.innerText = averageOunces;

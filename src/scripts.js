@@ -231,22 +231,13 @@ function updateHeader() {
 
 function updateAllHydrationCards() {
   domUpdates.updateHydrationMainCard(hydrationData, user, todayDate);
-  updateHydrationInfoCard()
+  domUpdates.updateHydrationInfoCard(hydrationData, user, todayDate)
   domUpdates.updateHydrationFriendCard
   (userRepository.calculateAverageDailyWater(todayDate));
   updateHydrationCalendarCard();
 }
 
 
-
-
-
-function updateHydrationInfoCard() {
-  let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
-  hydrationInfoGlassesToday.innerText = (hydrationData.find(hydration => {
-    return hydration.userId === user.id && hydration.date === todayDate;
-  }).ounces / 8).toFixed(1);
-}
 
 function sortHydration() {
   return user.ouncesRecord.sort((a, b) => {
