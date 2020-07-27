@@ -181,7 +181,7 @@ function showInfo() {
   }
 }
 
-function updateFriendsStepDisplay() { // Dropdown handler
+function updateFriendsStepDisplay() {
   updateDropdown();
   createFriendsStepList();
   styleFriends();
@@ -227,7 +227,7 @@ function updateHeader() {
   headerName.innerText = `${user.getFirstName()}'S `;
 }
 
-function updateAllHydrationCards() { // Hydration card handler
+function updateAllHydrationCards() {
   updateHydrationMainCard();
   updateHydrationInfoCard();
   updateHydrationFriendCard();
@@ -273,14 +273,14 @@ function sortHydration() {
 function updateHydrationCalendarCard() {
   let dailyOz = document.querySelectorAll(".daily-oz");
   let sortedHydrationDataByDate = sortHydration();
-  for (var i = 0; i < dailyOz.length; i++) { // convert into forEach  <---------------
+  for (var i = 0; i < dailyOz.length; i++) { // convert into forEach  <--------------- Hey!
     dailyOz[i].innerText = user.addDailyOunces(
       Object.keys(sortedHydrationDataByDate[i])[0]
     );
   }
 }
 
-function updateAllSleepCards() { // Sleep card handler
+function updateAllSleepCards() {
   updateSleepMainCard();
   updateSleepInfoCard();
   updateSleepFriendCard();
@@ -311,9 +311,9 @@ function updateSleepInfoCard() {
   //   sleepInfoQualityAverageAlltime.innerText = 0;
   //   sleepInfoHoursAverageAlltime.innerText = 0;
   // } else {
-    sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality || 0;  //might need to remove pipes
-    sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage || 0; //might need to remove pipes
-    sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage || 0; //might need to remove pipes
+    sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality || 0; // Let's make sure this is working the way we want it to, otherwise let's remove these pipes.
+    sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage || 0; 
+    sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage || 0; 
   // }
 }
 
@@ -336,7 +336,7 @@ function updateSleepCalendarCard() {
   sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
 }
 
-function updateAllStepsCards() { // Steps card handler
+function updateAllStepsCards() {
   updateStepsMainCard();
   updateStepsInfoCard();
   updateStepsFriendCard();
@@ -404,7 +404,7 @@ function updateTrendingStepDays() {
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 }
 
-function updateAllStairsCards() { // Stairs card handler
+function updateAllStairsCards() {
   updateStairsMainCard();
   updateStairsInfoCard();
   updateStairsFriendCard();
