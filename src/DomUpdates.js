@@ -15,6 +15,11 @@ class DomUpdates {
     }
   }
 
+  updateHydrationFriendCard(averageOunces) {
+    let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today');
+    hydrationFriendOuncesToday.innerText = averageOunces;
+  }
+
 }
 
 export default DomUpdates;
