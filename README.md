@@ -5,17 +5,22 @@ In this project, we refactored a pre-existing codebase that displays a users sle
 
 ### Learning Goals
 
-For this project, our learning goals were:
-* taking an app that was created by other students and refactoring that app to create DRY code that aligned with SRP.
-* organizing existing files to be compatible with `Webpack`.
-* ensuring that the code meets ARIA accessibility standards.
-* using `fetch` API to import data from a server rather than using the datafiles included with the code.
-* utilizing `chai-spies` to test DOM manipulation.
-* refactoring the existing `CSS` into `SCSS`.
+For this project, our learning goals were to:
+* take an app that was created by other students and refactor that app to create DRY code that aligned with SRP.
+* organize existing files to be compatible with `Webpack`.
+* ensure that the code meets ARIA accessibility standards.
+* use `fetch` API to import data from a server rather than using the datafiles included with the code.
+* utilize `chai-spies` to test DOM manipulation.
+* refactor the existing `CSS` into `SCSS`.
 
 ### Link to app
 
-### Wins
+### Wins:
+* utilizing debugger in DevTools rather than console log for troubleshooting problems with the codebase.
+* using the Lighthouse extension to audit the app and improve the accessibility rating from a score of 35 to a score of 100.
+* learning how to use fetch to obtain data from an API and managing asynchronous function calls.
+* employing `chai-spies` to test DOM manipulation.
+
 
 ### Challenges
 
