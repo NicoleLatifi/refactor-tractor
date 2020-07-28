@@ -15,6 +15,14 @@ For this project, our learning goals were to:
 
 ### Link to app
 
+### Setup/Install:
+
+* open your terminal and clone the repo using `git clone git@github.com:NicoleLatifi/refactor-tractor.git`.
+* cd into the repository and open it.
+* from the root of this directory, run `npm install` to download the dependencies.
+* to get dependencies for testing with chai-spies, run `npm install chai-spies`.
+* to launch the application run `npm start` and navigate to `http://localhost:8080/` in your favorite browser.
+
 ### Wins:
 
 * utilizing debugger in DevTools rather than console log for troubleshooting problems with the codebase.
@@ -30,7 +38,7 @@ For this project, our learning goals were to:
 * working entirely remotely, with strong time constraints during the global pandemic and civil unrest of 2020 presented unique difficulties.
 * although we were ultimately successful, while trying to implement the `fetch` web API, we ran into difficulties in managing asynchronous operation, which took us longer than expected.
 
-Visuals go here
+
 
 #### Contributers
 
