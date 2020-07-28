@@ -70,11 +70,11 @@ class DomUpdates {
 
   updateHydrationCalendarCard(user, sortedHydrationDataByDate) {
     let dailyOz = document.querySelectorAll(".daily-oz");
-    for (var i = 0; i < dailyOz.length; i++) { // convert into forEach  <--------------- Hey!
-      dailyOz[i].innerText = user.addDailyOunces(
+    dailyOz.forEach((entry, i) => {
+      entry.innerText = user.addDailyOunces(
         Object.keys(sortedHydrationDataByDate[i])[0]
       );
-    }
+    });
   }
 
   updateSleepMainCard(user, todayDate) {
@@ -102,8 +102,8 @@ class DomUpdates {
     //   sleepInfoHoursAverageAlltime.innerText = 0;
     // } else {
       sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality || 0; // Let's make sure this is working the way we want it to, otherwise let's remove these pipes.
-      sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage || 0; 
-      sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage || 0; 
+      sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage || 0;
+      sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage || 0;
     // }
   }
 
@@ -113,7 +113,7 @@ class DomUpdates {
     sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
       return user.id === userRepository.getLongestSleepers(todayDate)
     }).getFirstName();
-  
+
     sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
       return user.id === userRepository.getWorstSleepers(todayDate)
     }).getFirstName();
@@ -128,7 +128,7 @@ class DomUpdates {
 
   updateStepsMainCard(user, todayDate) {
     let stepsUserStepsToday = document.querySelector("#steps-user-steps-today");
-    let activityEntry = this.activityData.find((activity) => { 
+    let activityEntry = this.activityData.find((activity) => {
       return activity.userId === user.id && activity.date === todayDate;
     });
     if (activityEntry === undefined) {
