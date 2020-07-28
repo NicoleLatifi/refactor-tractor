@@ -35,7 +35,7 @@ class UserRepository {
       return user.activityRecord.filter(activity => {
         return activity.date === date;
       });
-    })
+    });
     let sumOfSteps = allUsersStepsCount.reduce((stepsSum, activityCollection) => {
       activityCollection.forEach(activity => {
         stepsSum += activity.numSteps;
@@ -50,7 +50,7 @@ class UserRepository {
       return user.activityRecord.filter(activity => {
         return activity.date === date;
       });
-    })
+    });
     let sumOfStairs = allUsersStairsCount.reduce((stairsSum, activityCollection) => {
       activityCollection.forEach(activity => {
         stairsSum += activity.flightsOfStairs;
@@ -98,7 +98,7 @@ class UserRepository {
       return b.hoursSlept - a.hoursSlept;
     })[0].userID;
   }
-  
+
   getWorstSleepers(date) {
     return sleepData.filter(sleep => {
       return sleep.date === date;
