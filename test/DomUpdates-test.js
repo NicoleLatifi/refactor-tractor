@@ -11,12 +11,14 @@ describe.only('DomUpdates', function() {
   let userRepository;
   let todayDate;
   let averageOunces;
+  let sortedHydrationDataByDate;
   beforeEach(() => {
     domUpdates = new DomUpdates();
     user = {};
     userRepository = {};
-    todayDate = "2019/09/22"
-    averageOunces = 64
+    todayDate = "2019/09/22";
+    averageOunces = 64;
+    sortedHydrationDataByDate = [];
   });
   afterEach(function() {
     chai.spy.restore(domUpdates)
@@ -50,6 +52,16 @@ describe.only('DomUpdates', function() {
 
     expect(domUpdates.updateHydrationFriendCard).to.have.been.called(1);
     expect(domUpdates.updateHydrationFriendCard).to.have.been.called.with(averageOunces);
+  })
+
+  it('Should be able to update the hydration calendar card with user info and sorted hydration data', function() {
+    global.domUpdates
+    chai.spy.on(domUpdates, ['updateHydrationCalendarCard'], () => {});
+
+    domUpdates.updateHydrationCalendarCard(user, sortedHydrationDataByDate);
+
+    expect(domUpdates.updateHydrationCalendarCard).to.have.been.called(1);
+    expect(domUpdates.updateHydrationCalendarCard).to.have.been.called.with(user, sortedHydrationDataByDate);
   })
 
 })
