@@ -1,3 +1,47 @@
+# Refactor-tractor FitLit
+#### Mod-2 Group Project by Aaron Burris-DeBoskey, Nicole Latifi & Naomi Ware.
+
+In this project, we refactored a pre-existing codebase that displays a users sleep, activity and hydration data and compare it to the data from other users.
+
+### Learning Goals
+
+For this project, our learning goals were to:
+* take an app that was created by other students and refactor that app to create DRY code that aligned with SRP.
+* organize existing files to be compatible with `Webpack`.
+* ensure that the code meets ARIA accessibility standards.
+* use `fetch` API to import data from a server rather than using the datafiles included with the code.
+* utilize `chai-spies` to test DOM manipulation.
+* refactor the existing `CSS` into `SCSS`.
+
+### Link to app
+
+### Wins:
+
+* utilizing debugger in DevTools rather than console log for troubleshooting problems with the codebase.
+* using the Lighthouse extension to audit the app and improve the accessibility rating from a score of 35 to a score of 100.
+* learning how to use fetch to obtain data from an API and managing asynchronous function calls.
+* employing `chai-spies` to test DOM manipulation.
+* strong teamwork in the face of adversity.
+
+
+### Challenges
+
+* early in our process, during an attempted git merge, differing dependency files created a disasterous conflict that forced us to abandon the repo and start over.
+* working entirely remotely, with strong time constraints during the global pandemic and civil unrest of 2020 presented unique difficulties.
+* although we were ultimately successful, while trying to implement the `fetch` web API, we ran into difficulties in managing asynchronous operation, which took us longer than expected.
+
+Visuals go here
+
+#### Contributers
+
+* [Aaron Burris-DeBoskey](GitHub.com/Abdeboskey)
+* [Nicole Latifi](GitHub.com/NicoleLatifi)
+* [Naomi Ware](GitHub.com/nware1066)
+
+
+
+
+
 # Webpack Starter Kit
 
 ## Clone This Repo
@@ -14,7 +58,7 @@ Now try to commit something and push it up to your new repo. If everything is se
 
 ## Setup
 
-After one person has gone through the steps of cloning down this repo and editing the remote, everyone should clone down the repo. 
+After one person has gone through the steps of cloning down this repo and editing the remote, everyone should clone down the repo.
 
 Then install the library dependencies. Run:
 
@@ -90,7 +134,7 @@ The test results will output to the terminal.
 
 Run the command in your terminal `npm run lint` to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit - the linter is still running successfully.
 
-Your linter will look at the JavaScript files you have within the `src` directory and the `test` directory. 
+Your linter will look at the JavaScript files you have within the `src` directory and the `test` directory.
 
 ## Webpack?
 
