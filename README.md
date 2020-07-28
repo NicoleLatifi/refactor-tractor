@@ -1,14 +1,27 @@
 # Refactor-tractor FitLit
 ## Mod-2 Group Project by Aaron Burris-DeBoskey, Nicole Latifi & Naomi Ware.
 
-### Refactor-tractor
-For this project, we were tasked with:
+In this project, we refactored a pre-existing codebase that displays a users sleep, activity and hydration data and compare it to the data from other users.
+
+### Learning Goals
+
+For this project, our learning goals were:
 * taking an app that was created by other students and refactoring that app to create DRY code that aligned with SRP.
 * organizing existing files to be compatible with `Webpack`.
 * ensuring that the code meets ARIA accessibility standards.
 * using `fetch` API to import data from a server rather than using the datafiles included with the code.
 * utilizing `chai-spies` to test DOM manipulation.
 * refactoring the existing `CSS` into `SCSS`.
+
+### Link to app
+
+### Wins
+
+### Challenges
+
+Visuals go here
+
+#### Contributers
 
 
 
