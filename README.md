@@ -1,5 +1,5 @@
 # Refactor-tractor FitLit
-## Mod-2 Group Project by Aaron Burris-DeBoskey, Nicole Latifi & Naomi Ware.
+#### Mod-2 Group Project by Aaron Burris-DeBoskey, Nicole Latifi & Naomi Ware.
 
 In this project, we refactored a pre-existing codebase that displays a users sleep, activity and hydration data and compare it to the data from other users.
 
@@ -16,17 +16,27 @@ For this project, our learning goals were to:
 ### Link to app
 
 ### Wins:
+
 * utilizing debugger in DevTools rather than console log for troubleshooting problems with the codebase.
 * using the Lighthouse extension to audit the app and improve the accessibility rating from a score of 35 to a score of 100.
 * learning how to use fetch to obtain data from an API and managing asynchronous function calls.
 * employing `chai-spies` to test DOM manipulation.
+* strong teamwork in the face of adversity.
 
 
 ### Challenges
 
+* early in our process, during an attempted git merge, differing dependency files created a disasterous conflict that forced us to abandon the repo and start over.
+* working entirely remotely, with strong time constraints during the global pandemic and civil unrest of 2020 presented unique difficulties.
+* although we were ultimately successful, while trying to implement the `fetch` web API, we ran into difficulties in managing asynchronous operation, which took us longer than expected.
+
 Visuals go here
 
 #### Contributers
+
+* [Aaron Burris-DeBoskey](GitHub.com/Abdeboskey)
+* [Nicole Latifi](GitHub.com/NicoleLatifi)
+* [Naomi Ware](GitHub.com/nware1066)
 
 
 
