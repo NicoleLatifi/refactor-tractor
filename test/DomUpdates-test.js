@@ -64,4 +64,23 @@ describe.only('DomUpdates', function() {
     expect(domUpdates.updateHydrationCalendarCard).to.have.been.called.with(user, sortedHydrationDataByDate);
   })
 
+  it('Should be able to update the steps main card with user info and today\'s date', function() {
+    global.domUpdates
+    chai.spy.on(domUpdates, ['updateStepsMainCard'], () => {});
+
+    domUpdates.updateStepsMainCard(user, todayDate);
+
+    expect(domUpdates.updateStepsMainCard).to.have.been.called(1);
+    expect(domUpdates.updateStepsMainCard).to.have.been.called.with(user, todayDate);
+  })
+
+  it('Should be able to update the stairs main card with user info and today\'s date', function() {
+    global.domUpdates
+    chai.spy.on(domUpdates, ['updateStairsMainCard'], () => {});
+
+    domUpdates.updateStairsMainCard(user, todayDate);
+
+    expect(domUpdates.updateStairsMainCard).to.have.been.called(1);
+    expect(domUpdates.updateStairsMainCard).to.have.been.called.with(user, todayDate);
+  })
 })
