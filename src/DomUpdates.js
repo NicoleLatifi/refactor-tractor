@@ -111,11 +111,11 @@ class DomUpdates {
     let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
     let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');
     sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
-      return user.id === userRepository.getLongestSleepers(todayDate)
+      return user.id === userRepository.getLongestSleepers(todayDate, this.sleepData)
     }).getFirstName();
 
     sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
-      return user.id === userRepository.getWorstSleepers(todayDate)
+      return user.id === userRepository.getWorstSleepers(todayDate, this.sleepData)
     }).getFirstName();
   }
 
@@ -138,7 +138,7 @@ class DomUpdates {
     }
   }
 
-  updateStepsInfoCard(user, todayDate, userRepository) { 
+  updateStepsInfoCard(user, todayDate, userRepository) {
     let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
     let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
     let activityEntry = this.activityData.find(activity => {
