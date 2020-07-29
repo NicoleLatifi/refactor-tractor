@@ -14,7 +14,7 @@ class DomUpdates {
     dropdownName.innerText = user.name.toUpperCase();
   }
 
-  createFriendsStepList(userRepository, user, todayDate) { // <--------- The problem was HERE (It was all working, we just needed to set a delay)
+  createFriendsStepList(userRepository, user, todayDate) {
     let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
     user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
     user.friendsActivityRecords.forEach(friend => {
@@ -96,15 +96,15 @@ class DomUpdates {
     let sleepInfoEntry = this.sleepData.find(sleep => {
       return sleep.userId === user.id && sleep.date === todayDate;
     });
-    // if (sleepInfoEntry === undefined) {
-    //   sleepInfoQualityToday.innerText = 0;
-    //   sleepInfoQualityAverageAlltime.innerText = 0;
-    //   sleepInfoHoursAverageAlltime.innerText = 0;
-    // } else {
-      sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality || 0; // Let's make sure this is working the way we want it to, otherwise let's remove these pipes.
-      sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage || 0;
-      sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage || 0;
-    // }
+    if (sleepInfoEntry === undefined) {
+      sleepInfoQualityToday.innerText = 0;
+      sleepInfoQualityAverageAlltime.innerText = 0;
+      sleepInfoHoursAverageAlltime.innerText = 0;
+    } else {
+      sleepInfoQualityToday.innerText = sleepInfoEntry.sleepQuality;
+      sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
+      sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
+    }
   }
 
   updateSleepFriendCard(userRepository, todayDate) {
@@ -138,7 +138,7 @@ class DomUpdates {
     }
   }
 
-  updateStepsInfoCard(user, todayDate, userRepository) { // Maybe split this into two helperz
+  updateStepsInfoCard(user, todayDate, userRepository) { 
     let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
     let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
     let activityEntry = this.activityData.find(activity => {

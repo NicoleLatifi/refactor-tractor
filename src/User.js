@@ -48,12 +48,12 @@
 
   updateSleep(date, hours, quality) {
     this.sleepHoursRecord.unshift({
-      'date': date,
-      'hours': hours
+      date,
+      hours
     });
     this.sleepQualityRecord.unshift({
-      'date': date,
-      'quality': quality
+      date,
+      quality
     });
     if (this.sleepHoursRecord.length) {
       this.hoursSleptAverage = ((hours + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
@@ -87,11 +87,11 @@
     }, 0) / 7).toFixed(1);
   }
 
-  updateActivities(activity) { // adds activity to front of user's activityRecord
+  updateActivities(activity) {
     this.activityRecord.unshift(activity);
     if (activity.numSteps >= this.dailyStepGoal) {
       this.accomplishedDays.unshift(activity.date);
-    } // If user exceeds their step goal, the activity's date is added to user's accomplishedDays
+    }
   }
 
   findClimbingRecord() {
@@ -188,8 +188,8 @@
           'id': matchedFriend.id,
           'firstName': matchedFriend.name.toUpperCase().split(' ')[0],
           'totalWeeklySteps': matchedFriend.totalStepsThisWeek
-        })
-    })
+        });
+    });
     this.calculateTotalStepsThisWeek(date);
     this.friendsActivityRecords.push({
       'id': this.id,

@@ -13,7 +13,6 @@ let stepsTrendingButton = document.querySelector('.steps-trending-button');
 let userRepository = new UserRepository();
 let user;
 let todayDate = "2019/09/22";
-// convert todayDate to function so today's date is dynamic, and always current.
 let hydrationData = [];
 let activityData = [];
 let sleepData = [];
@@ -24,10 +23,9 @@ mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays);
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays);
-// ⬆ Combine these four into a single click listener ⤴
 
 function createUser() {
-  let randomIndex = Math.floor(Math.random() * 50)
+  let randomIndex = Math.floor(Math.random() * 50);
   user = userRepository.users[randomIndex];
   user.findFriendsNames(userRepository.users);
 }
@@ -45,10 +43,10 @@ function getUserData() {
 function storeUserData(data) {
   data.userData.forEach(user => {
     let newUser = new User(user);
-    userRepository.users.push(newUser)
+    userRepository.users.push(newUser);
   });
   createUser();
-  setTimeout(() => updateFriendsStepDisplay(), 600); // <---------------------This was the fix
+  setTimeout(() => updateFriendsStepDisplay(), 600);
 }
 
 function getActivityData() {
@@ -191,11 +189,10 @@ function updateFriendsStepDisplay() {
 }
 
 function updateAllHydrationCards() {
-  let sortedHydrationDataByDate = sortHydration(); // ~~~This used to live in updateHydrationCalendarCard() but I moved it here because that function is now in DomUpdates.js
+  let sortedHydrationDataByDate = sortHydration();
   domUpdates.updateHydrationMainCard(user, todayDate);
-  domUpdates.updateHydrationInfoCard(user, todayDate)
-  domUpdates.updateHydrationFriendCard
-  (userRepository.calculateAverageDailyWater(todayDate));
+  domUpdates.updateHydrationInfoCard(user, todayDate);
+  domUpdates.updateHydrationFriendCard(userRepository.calculateAverageDailyWater(todayDate));
   domUpdates.updateHydrationCalendarCard(user, sortedHydrationDataByDate);
 }
 

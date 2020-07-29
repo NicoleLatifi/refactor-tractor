@@ -1,4 +1,4 @@
-# Refactor-tractor FitLit
+# Refactor-Tractor FitLit
 #### Mod-2 Group Project by Aaron Burris-DeBoskey, Nicole Latifi & Naomi Ware.
 
 In this project, we refactored a pre-existing codebase that displays a users sleep, activity and hydration data and compare it to the data from other users.
@@ -16,7 +16,7 @@ For this project, our learning goals were to:
 ### View the app in action!
 ![Profile button is clicked and dropdown is displayed; step card buttons are clicked and step data is displayed](src/images/refactor-tractor.gif)
 
-### Setup/Install:
+### Setup/Install
 
 * open your terminal and clone the repo using `git clone git@github.com:NicoleLatifi/refactor-tractor.git`.
 * `cd` into the repository and open it in your favorite text editor.
@@ -25,7 +25,7 @@ For this project, our learning goals were to:
 * if you would like to run tests, run `npm test` from the root directory in your terminal.
 * to launch the application run `npm start` and navigate to `http://localhost:8080/` in your favorite browser.
 
-### Wins:
+### Wins
 
 * utilizing debugger in DevTools rather than console log for troubleshooting problems with the codebase.
 * using the Lighthouse extension to audit the app and improve the accessibility rating from a score of 35 to a score of 100.
@@ -40,9 +40,17 @@ For this project, our learning goals were to:
 * working entirely remotely, with strong time constraints during the global pandemic and civil unrest of 2020 presented unique difficulties.
 * although we were ultimately successful, while trying to implement the `fetch` web API, we ran into difficulties in managing asynchronous operation, which took us longer than expected.
 
+### Future Iterations
 
+This app has potential for further features, which could include:
+* use of object inheritance to DRY up the class structure.
+* creation of user input fields and implementation of `POST` requests to update data on the servers.
+* creation of a more rigorous testing suite, including sad path exploration and more robust `chai-spies` utilization.
+* use of `Webpack` to build and deploy the application.
 
 #### Contributers
+
+  This project was submitted on 7/28/2020 by:
 
 * [Aaron Burris-DeBoskey](GitHub.com/Abdeboskey)
 * [Nicole Latifi](GitHub.com/NicoleLatifi)
