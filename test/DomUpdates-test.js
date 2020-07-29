@@ -5,7 +5,7 @@ const expect = chai.expect;
 
 chai.use(spies);
 
-describe.only('DomUpdates', function() {
+describe('DomUpdates', function() {
   let domUpdates;
   let user;
   let userRepository;
@@ -20,6 +20,7 @@ describe.only('DomUpdates', function() {
     averageOunces = 64;
     sortedHydrationDataByDate = [];
   });
+  
   afterEach(function() {
     chai.spy.restore(domUpdates)
   });
