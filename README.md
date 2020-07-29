@@ -8,6 +8,7 @@ In this project, we refactored a pre-existing codebase that displays a users sle
 For this project, our learning goals were to:
 * take an app that was created by other students and refactor that app to create DRY code that aligned with SRP.
 * organize existing files to be compatible with `Webpack`.
+* use of object inheritance to DRY up the class structure.
 * ensure that the code meets ARIA accessibility standards.
 * use `fetch` API to import data from a server rather than using the datafiles included with the code.
 * utilize `chai-spies` to test DOM manipulation.
@@ -43,7 +44,7 @@ For this project, our learning goals were to:
 ### Future Iterations
 
 This app has potential for further features, which could include:
-* use of object inheritance to DRY up the class structure.
+
 * creation of user input fields and implementation of `POST` requests to update data on the servers.
 * creation of a more rigorous testing suite, including sad path exploration and more robust `chai-spies` utilization.
 * use of `Webpack` to build and deploy the application.

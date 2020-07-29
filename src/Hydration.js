@@ -1,11 +1,12 @@
-class Hydration {
+import Entry from './Entry';
+
+class Hydration extends Entry {
   constructor(data, userRepository) {
-    this.userId = data.userID;
-    this.date = data.date;
+    super(data, userRepository);
     this.ounces = data.numOunces;
     this.drink(userRepository);
   }
-  
+
   drink(userRepo) {
     var hydrate = this;
     userRepo.users.find(function(user) {

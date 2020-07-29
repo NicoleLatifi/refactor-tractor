@@ -1,7 +1,8 @@
-class Activity {
+import Entry from './Entry';
+
+class Activity extends Entry {
   constructor(data, userRepository) {
-    this.userId = data.userID;
-    this.date = data.date;
+    super(data, userRepository);
     this.numSteps = data.numSteps;
     this.minutesActive = data.minutesActive;
     this.flightsOfStairs = data.flightsOfStairs;
