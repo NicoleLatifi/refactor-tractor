@@ -2,7 +2,7 @@ import Entry from './Entry';
 
 class Sleep extends Entry {
   constructor(data, userRepository) {
-    super(data, userRepository)
+    super(data)
     this.hoursSlept = data.hoursSlept;
     this.sleepQuality = data.sleepQuality;
     this.sleep(userRepository);

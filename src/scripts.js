@@ -5,7 +5,6 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 import DomUpdates from './DomUpdates';
-import Entry from './Entry';
 
 let mainPage = document.querySelector('main');
 let profileButton = document.querySelector('#profile-button');

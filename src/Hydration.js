@@ -2,7 +2,7 @@ import Entry from './Entry';
 
 class Hydration extends Entry {
   constructor(data, userRepository) {
-    super(data, userRepository);
+    super(data);
     this.ounces = data.numOunces;
     this.drink(userRepository);
   }

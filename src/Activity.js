@@ -2,7 +2,7 @@ import Entry from './Entry';
 
 class Activity extends Entry {
   constructor(data, userRepository) {
-    super(data, userRepository);
+    super(data);
     this.numSteps = data.numSteps;
     this.minutesActive = data.minutesActive;
     this.flightsOfStairs = data.flightsOfStairs;
